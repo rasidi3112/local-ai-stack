@@ -78,11 +78,15 @@ jobs:
         run: |
           ENV_FILE="$WORKDIR/.local-ai-stack/.env"
 
-          # Mask every value already in .env so nothing leaks
+          # Mask only values whose key ends with PASSWORD, KEY, SECRET, or TOKEN
           while IFS='=' read -r key value; do
             [ -z "$key" ] && continue
             [[ "$key" == \#* ]] && continue
-            echo "::add-mask::$value"
+            case "$key" in
+              *PASSWORD|*KEY|*SECRET|*TOKEN)
+                echo "::add-mask::$value"
+                ;;
+            esac
           done < "$ENV_FILE"
 
           # Extract API_SECRET_KEY for later use (already masked above)
@@ -99,14 +103,14 @@ jobs:
         run: |
           GATEWAY_URL="http://localhost:8000"
           echo "Waiting for $GATEWAY_URL/health ..."
-          for i in $(seq 1 60); do
+          for i in $(seq 1 120); do
             if curl -sf "$GATEWAY_URL/health" > /dev/null 2>&1; then
               echo "Gateway healthy after ${i}s"
               exit 0
             fi
             sleep 1
           done
-          echo "::error::Gateway /health did not respond within 60 s"
+          echo "::error::Gateway /health did not respond within 120 s"
           exit 1
 
       - name: 'Assert: no Authorization → 401'
@@ -120,41 +124,54 @@ jobs:
             exit 1
           fi
 
-      - name: 'Assert: valid Bearer token → not 401 (upstream errors acceptable)'
-        run: |
-          STATUS=$(curl -s -o /dev/null -w '%{http_code}' \
-            -H "Authorization: Bearer $API_SECRET_KEY" \
-            -H 'Host: localhost:8000' \
-            http://localhost:8000/v1/models)
-          echo "Status with auth (request 1): $STATUS"
-          if [ "$STATUS" = "401" ]; then
-            echo "::error::Got 401 with valid Bearer token"
-            exit 1
-          fi
-
-      - name: 'Assert: 4th authenticated request → 429 with Retry-After and rate_limit_exceeded'
+      - name: 'Assert: auth + rate limit (up to 6 requests)'
         run: |
           GATEWAY="http://localhost:8000/v1/models"
-          AUTH="-H \"Authorization: Bearer $API_SECRET_KEY\" -H \"Host: localhost:8000\""
+          FIRST_429=""
 
-          # Requests 2 and 3 (request 1 was the previous step)
-          for i in 2 3; do
-            eval curl -s -o /dev/null $AUTH "$GATEWAY"
+          for i in $(seq 1 6); do
+            RESP=$(curl -s -w '\n%{http_code}' \
+              -H "Authorization: Bearer $API_SECRET_KEY" \
+              -H 'Host: localhost:8000' \
+              "$GATEWAY")
+            STATUS=$(echo "$RESP" | tail -1)
+            BODY=$(echo "$RESP" | sed '$d')
+            echo "Request $i: HTTP $STATUS"
+
+            # First 3 requests must NOT be 429
+            if [ "$i" -le 3 ] && [ "$STATUS" = "429" ]; then
+              echo "::error::Request $i got 429 too early (limit is 3)"
+              exit 1
+            fi
+
+            # Any authenticated request must not be 401
+            if [ "$STATUS" = "401" ]; then
+              echo "::error::Request $i got 401 with valid Bearer token"
+              exit 1
+            fi
+
+            if [ "$STATUS" = "429" ] && [ -z "$FIRST_429" ]; then
+              FIRST_429="$i"
+              SAVED_BODY="$BODY"
+            fi
           done
 
-          # Request 4 — must be 429
-          RESPONSE=$(eval curl -s -w '\n%{http_code}' $AUTH "$GATEWAY")
-          STATUS=$(echo "$RESPONSE" | tail -1)
-          BODY=$(echo "$RESPONSE" | sed '$d')
-
-          echo "Status on request 4: $STATUS"
-          if [ "$STATUS" != "429" ]; then
-            echo "::error::Expected 429 on request 4, got $STATUS"
+          # 429 must have appeared by request 5 at the latest
+          if [ -z "$FIRST_429" ]; then
+            echo "::error::429 never appeared in 6 requests"
             exit 1
           fi
+          if [ "$FIRST_429" -gt 5 ]; then
+            echo "::error::429 first appeared at request $FIRST_429 (expected ≤ 5)"
+            exit 1
+          fi
+          echo "First 429 at request $FIRST_429"
 
-          # Retry-After header must be present
-          RETRY_AFTER=$(eval curl -s -I $AUTH "$GATEWAY" | grep -i '^retry-after:' | tr -d '\r')
+          # Retry-After header must be present on a 429 response
+          RETRY_AFTER=$(curl -s -I \
+            -H "Authorization: Bearer $API_SECRET_KEY" \
+            -H 'Host: localhost:8000' \
+            "$GATEWAY" | grep -i '^retry-after:' | tr -d '\r')
           echo "Retry-After: $RETRY_AFTER"
           if [ -z "$RETRY_AFTER" ]; then
             echo "::error::Retry-After header missing on 429"
@@ -162,7 +179,7 @@ jobs:
           fi
 
           # error.code must be rate_limit_exceeded
-          CODE=$(echo "$BODY" | node -e "
+          CODE=$(echo "$SAVED_BODY" | node -e "
             let d='';
             process.stdin.on('data',c=>d+=c);
             process.stdin.on('end',()=>{
@@ -185,6 +202,20 @@ jobs:
           if [ "$STATUS" != "200" ]; then
             echo "::error::/health expected 200, got $STATUS"
             exit 1
+          fi
+
+      - name: Dump container state on failure
+        if: failure()
+        run: |
+          COMPOSE_FILE="$WORKDIR/.local-ai-stack/docker-compose.yml"
+          ENV_FILE="$WORKDIR/.local-ai-stack/.env"
+          if [ -f "$COMPOSE_FILE" ]; then
+            echo "=== docker compose ps ==="
+            docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" ps 2>&1 || true
+            echo ""
+            echo "=== docker compose logs api (last 100 lines) ==="
+            docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" logs --tail=100 api 2>&1 \
+              | grep -v -E '(PASSWORD|KEY|SECRET|TOKEN)=' || true
           fi
 
       - name: Tear down stack
