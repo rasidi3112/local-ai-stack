@@ -42,3 +42,154 @@ jobs:
           cd api
           npm ci
           npm run build
+
+  e2e-smoke:
+    name: E2E Smoke (${{ matrix.runner }})
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-latest, ubuntu-24.04-arm]
+    needs: test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: 'npm'
+
+      - name: Install dependencies and build CLI
+        run: |
+          npm ci
+          npm run build
+
+      - name: Initialize stack
+        run: |
+          WORKDIR="$(mktemp -d)"
+          echo "WORKDIR=$WORKDIR" >> "$GITHUB_ENV"
+          node dist/index.js init --preset standard --yes --skip-checks --dir "$WORKDIR"
+
+      - name: Inject rate-limit override and mask secrets
+        run: |
+          ENV_FILE="$WORKDIR/.local-ai-stack/.env"
+
+          # Mask every value already in .env so nothing leaks
+          while IFS='=' read -r key value; do
+            [ -z "$key" ] && continue
+            [[ "$key" == \#* ]] && continue
+            echo "::add-mask::$value"
+          done < "$ENV_FILE"
+
+          # Extract API_SECRET_KEY for later use (already masked above)
+          API_SECRET_KEY=$(grep '^API_SECRET_KEY=' "$ENV_FILE" | cut -d'=' -f2-)
+          echo "API_SECRET_KEY=$API_SECRET_KEY" >> "$GITHUB_ENV"
+
+          # Append rate-limit override
+          echo 'RATE_LIMIT_MAX_REQUESTS=3' >> "$ENV_FILE"
+
+      - name: Start stack
+        run: node dist/index.js up --dir "$WORKDIR" --no-healthcheck
+
+      - name: Wait for gateway /health
+        run: |
+          GATEWAY_URL="http://localhost:8000"
+          echo "Waiting for $GATEWAY_URL/health ..."
+          for i in $(seq 1 60); do
+            if curl -sf "$GATEWAY_URL/health" > /dev/null 2>&1; then
+              echo "Gateway healthy after ${i}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::Gateway /health did not respond within 60 s"
+          exit 1
+
+      - name: 'Assert: no Authorization → 401'
+        run: |
+          STATUS=$(curl -s -o /dev/null -w '%{http_code}' \
+            -H 'Host: localhost:8000' \
+            http://localhost:8000/v1/models)
+          echo "Status without auth: $STATUS"
+          if [ "$STATUS" != "401" ]; then
+            echo "::error::Expected 401, got $STATUS"
+            exit 1
+          fi
+
+      - name: 'Assert: valid Bearer token → not 401 (upstream errors acceptable)'
+        run: |
+          STATUS=$(curl -s -o /dev/null -w '%{http_code}' \
+            -H "Authorization: Bearer $API_SECRET_KEY" \
+            -H 'Host: localhost:8000' \
+            http://localhost:8000/v1/models)
+          echo "Status with auth (request 1): $STATUS"
+          if [ "$STATUS" = "401" ]; then
+            echo "::error::Got 401 with valid Bearer token"
+            exit 1
+          fi
+
+      - name: 'Assert: 4th authenticated request → 429 with Retry-After and rate_limit_exceeded'
+        run: |
+          GATEWAY="http://localhost:8000/v1/models"
+          AUTH="-H \"Authorization: Bearer $API_SECRET_KEY\" -H \"Host: localhost:8000\""
+
+          # Requests 2 and 3 (request 1 was the previous step)
+          for i in 2 3; do
+            eval curl -s -o /dev/null $AUTH "$GATEWAY"
+          done
+
+          # Request 4 — must be 429
+          RESPONSE=$(eval curl -s -w '\n%{http_code}' $AUTH "$GATEWAY")
+          STATUS=$(echo "$RESPONSE" | tail -1)
+          BODY=$(echo "$RESPONSE" | sed '$d')
+
+          echo "Status on request 4: $STATUS"
+          if [ "$STATUS" != "429" ]; then
+            echo "::error::Expected 429 on request 4, got $STATUS"
+            exit 1
+          fi
+
+          # Retry-After header must be present
+          RETRY_AFTER=$(eval curl -s -I $AUTH "$GATEWAY" | grep -i '^retry-after:' | tr -d '\r')
+          echo "Retry-After: $RETRY_AFTER"
+          if [ -z "$RETRY_AFTER" ]; then
+            echo "::error::Retry-After header missing on 429"
+            exit 1
+          fi
+
+          # error.code must be rate_limit_exceeded
+          CODE=$(echo "$BODY" | node -e "
+            let d='';
+            process.stdin.on('data',c=>d+=c);
+            process.stdin.on('end',()=>{
+              try { console.log(JSON.parse(d).error.code); }
+              catch { console.log('PARSE_ERROR'); }
+            });
+          ")
+          echo "error.code: $CODE"
+          if [ "$CODE" != "rate_limit_exceeded" ]; then
+            echo "::error::Expected error.code=rate_limit_exceeded, got $CODE"
+            exit 1
+          fi
+
+      - name: 'Assert: /health still returns 200'
+        run: |
+          STATUS=$(curl -s -o /dev/null -w '%{http_code}' \
+            -H 'Host: localhost:8000' \
+            http://localhost:8000/health)
+          echo "/health status: $STATUS"
+          if [ "$STATUS" != "200" ]; then
+            echo "::error::/health expected 200, got $STATUS"
+            exit 1
+          fi
+
+      - name: Tear down stack
+        if: always()
+        run: |
+          if [ -n "$WORKDIR" ]; then
+            node dist/index.js down --dir "$WORKDIR" --force || true
+          fi
