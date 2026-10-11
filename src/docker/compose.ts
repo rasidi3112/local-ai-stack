@@ -69,7 +69,7 @@ export function generateComposeFile(config: StackConfig, _env?: GeneratedEnv): s
       volumes: ['ollama-data:/root/.ollama'],
       networks: ['local-ai-network'],
       healthcheck: {
-        test: ['CMD-SHELL', 'curl -f http://localhost:11434/ || exit 1'],
+        test: ['CMD', 'ollama', 'list'],
         interval: '30s',
         timeout: '10s',
         retries: 3,

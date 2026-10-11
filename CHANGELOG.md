@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Replaced missing `curl` in Ollama container health check with `ollama list` (`["CMD", "ollama", "list"]`) to prevent services from failing startup due to unhealthy status.
+
 ## [0.2.0] - 2026-10-11
 
 ### Added

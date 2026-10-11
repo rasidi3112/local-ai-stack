@@ -153,6 +153,18 @@ describe('Docker Compose Generator', () => {
       expect(services.postgres.healthcheck).toBeDefined();
       expect(services.qdrant.healthcheck).toBeDefined();
     });
+
+    it('should use ollama list and not use curl for ollama health check', () => {
+      const config = getDefaultConfig('standard');
+      const yaml = generateComposeFile(config, mockEnv);
+      const parsed = yamlLoad(yaml) as Record<string, unknown>;
+      const services = parsed.services as Record<string, { healthcheck?: { test: string[] } }>;
+
+      expect(services.ollama.healthcheck?.test).toEqual(['CMD', 'ollama', 'list']);
+      expect(services.ollama.healthcheck?.test).not.toContain('curl');
+      const testCommand = services.ollama.healthcheck?.test.join(' ') ?? '';
+      expect(testCommand).not.toContain('curl');
+    });
   });
 
   describe('Full preset', () => {
