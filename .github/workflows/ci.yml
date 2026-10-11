@@ -80,7 +80,7 @@ jobs:
 
       - name: Inject rate-limit override and mask secrets
         run: |
-          ENV_FILE="$WORKDIR/.local-ai-stack/.env"
+          ENV_FILE="$WORKDIR/.pondok-ai/.env"
 
           # Mask only values whose key ends with PASSWORD, KEY, SECRET, or TOKEN
           while IFS='=' read -r key value; do
@@ -102,7 +102,7 @@ jobs:
 
       - name: Probe healthcheck tools in compose images
         continue-on-error: true
-        run: node .github/scripts/probe-images.js "$WORKDIR/.local-ai-stack/docker-compose.yml" "$ENV_FILE"
+        run: node .github/scripts/probe-images.js "$WORKDIR/.pondok-ai/docker-compose.yml" "$ENV_FILE"
 
       - name: Start stack
         run: node dist/index.js up --dir "$WORKDIR" --no-healthcheck
@@ -124,9 +124,9 @@ jobs:
       - name: Pull tiny Ollama model
         run: |
           echo "Pulling model smollm:135m..."
-          docker exec local-ai-stack-ollama ollama pull smollm:135m
+          docker exec pondok-ai-ollama ollama pull smollm:135m
           echo "=== Installed models ==="
-          docker exec local-ai-stack-ollama ollama list
+          docker exec pondok-ai-ollama ollama list
 
       - name: 'Assert: GET /v1/models with Bearer lists installed model'
         run: |
@@ -313,30 +313,30 @@ jobs:
       - name: Dump container state on failure
         if: failure()
         run: |
-          COMPOSE_FILE="$WORKDIR/.local-ai-stack/docker-compose.yml"
-          ENV_FILE="$WORKDIR/.local-ai-stack/.env"
+          COMPOSE_FILE="$WORKDIR/.pondok-ai/docker-compose.yml"
+          ENV_FILE="$WORKDIR/.pondok-ai/.env"
           if [ -f "$COMPOSE_FILE" ]; then
             echo "=== docker compose ps ==="
             docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" ps 2>&1 || true
             echo ""
-            echo "=== docker inspect health for all local-ai-stack-* containers ==="
-            CONTAINERS=$(docker ps -a --format '{{.Names}}' | grep '^local-ai-stack' || true)
+            echo "=== docker inspect health for all pondok-ai-* containers ==="
+            CONTAINERS=$(docker ps -a --format '{{.Names}}' | grep '^pondok-ai' || true)
             for c in $CONTAINERS; do
               echo "--- Container: $c Health State ---"
               docker inspect --format '{{json .State.Health}}' "$c" 2>&1 \
                 | grep -v -E '(PASSWORD|KEY|SECRET|TOKEN)=' || true
             done
             echo ""
-            echo "=== docker logs local-ai-stack-ollama (last 50 lines) ==="
-            docker logs --tail 50 local-ai-stack-ollama 2>&1 \
+            echo "=== docker logs pondok-ai-ollama (last 50 lines) ==="
+            docker logs --tail 50 pondok-ai-ollama 2>&1 \
               | grep -v -E '(PASSWORD|KEY|SECRET|TOKEN)=' || true
             echo ""
-            echo "=== docker logs local-ai-stack-api (last 50 lines) ==="
-            docker logs --tail 50 local-ai-stack-api 2>&1 \
+            echo "=== docker logs pondok-ai-api (last 50 lines) ==="
+            docker logs --tail 50 pondok-ai-api 2>&1 \
               | grep -v -E '(PASSWORD|KEY|SECRET|TOKEN)=' || true
             echo ""
-            echo "=== docker logs local-ai-stack-qdrant (last 50 lines) ==="
-            docker logs --tail 50 local-ai-stack-qdrant 2>&1 \
+            echo "=== docker logs pondok-ai-qdrant (last 50 lines) ==="
+            docker logs --tail 50 pondok-ai-qdrant 2>&1 \
               | grep -v -E '(PASSWORD|KEY|SECRET|TOKEN)=' || true
             echo ""
             echo "=== docker compose logs api (last 100 lines) ==="

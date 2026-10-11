@@ -208,7 +208,7 @@ if (!dockerOk) {
     }
 
     if (!apiImage) {
-      apiImage = 'local-ai-stack-api';
+      apiImage = 'pondok-ai-api';
     }
     console.log(`Resolved API Gateway image: ${apiImage}`);
 

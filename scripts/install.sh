@@ -2,7 +2,7 @@
 set -e
 
 # ==============================================================================
-# local-ai-stack — Cross-Platform One-Command Installer (macOS & Linux)
+# pondok-ai — Cross-Platform One-Command Installer (macOS & Linux)
 # ==============================================================================
 
 BOLD="\033[1m"
@@ -15,7 +15,7 @@ NC="\033[0m"
 echo -e "${CYAN}${BOLD}"
 echo "╭─────────────────────────────────╮"
 echo "│                                 │"
-echo "│         LOCAL AI STACK          │"
+echo "│            PONDOK AI            │"
 echo "│   Your private AI environment   │"
 echo "│                                 │"
 echo "╰─────────────────────────────────╯"
@@ -36,13 +36,13 @@ if command -v node >/dev/null 2>&1; then
     echo -e "  Node.js:          ${GREEN}v${NODE_VER}${NC}"
   else
     echo -e "  Node.js:          ${RED}v${NODE_VER} (Node.js 22+ required)${NC}"
-    echo -e "${RED}Error: Node.js (v22+) is required to run local-ai-stack.${NC}"
+    echo -e "${RED}Error: Node.js (v22+) is required to run pondok-ai.${NC}"
     echo -e "Please install Node.js from: https://nodejs.org/"
     exit 1
   fi
 else
   echo -e "  Node.js:          ${RED}Not installed${NC}"
-  echo -e "${RED}Error: Node.js (v22+) is required to run local-ai-stack.${NC}"
+  echo -e "${RED}Error: Node.js (v22+) is required to run pondok-ai.${NC}"
   echo -e "Please install Node.js from: https://nodejs.org/"
   exit 1
 fi
@@ -72,7 +72,7 @@ if docker compose version >/dev/null 2>&1; then
 fi
 
 echo ""
-echo -e "${BOLD}Launching local-ai-stack initialization...${NC}"
+echo -e "${BOLD}Launching pondok-ai initialization...${NC}"
 echo ""
 
 # Run via npx or local cli binary if in repository
@@ -80,6 +80,6 @@ if [ -f "dist/index.js" ]; then
   node dist/index.js init "$@"
   node dist/index.js up
 else
-  npx local-ai-stack init "$@"
-  npx local-ai-stack up
+  npx pondok-ai init "$@"
+  npx pondok-ai up
 fi
