@@ -102,7 +102,7 @@ jobs:
 
       - name: Probe healthcheck tools in compose images
         continue-on-error: true
-        run: node .github/scripts/probe-images.js "$WORKDIR/.local-ai-stack/docker-compose.yml"
+        run: node .github/scripts/probe-images.js "$WORKDIR/.local-ai-stack/docker-compose.yml" "$ENV_FILE"
 
       - name: Start stack
         run: node dist/index.js up --dir "$WORKDIR" --no-healthcheck
