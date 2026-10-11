@@ -24,7 +24,7 @@ describe('CLI Init Integration', () => {
   let testDir: string;
 
   beforeEach(() => {
-    testDir = mkdtempSync(join(tmpdir(), 'local-ai-stack-test-'));
+    testDir = mkdtempSync(join(tmpdir(), 'pondok-ai-test-'));
   });
 
   afterEach(() => {
@@ -40,10 +40,10 @@ describe('CLI Init Integration', () => {
 
     expect(output).toContain('Stack initialized successfully!');
 
-    // Check created files in .local-ai-stack
-    const configPath = join(testDir, '.local-ai-stack', 'config.json');
-    const composePath = join(testDir, '.local-ai-stack', 'docker-compose.yml');
-    const envPath = join(testDir, '.local-ai-stack', '.env');
+    // Check created files in .pondok-ai
+    const configPath = join(testDir, '.pondok-ai', 'config.json');
+    const composePath = join(testDir, '.pondok-ai', 'docker-compose.yml');
+    const envPath = join(testDir, '.pondok-ai', '.env');
 
     expect(existsSync(configPath)).toBe(true);
     expect(existsSync(composePath)).toBe(true);
@@ -61,7 +61,7 @@ describe('CLI Init Integration', () => {
 
     expect(output).toContain('Stack initialized successfully!');
 
-    const configPath = join(testDir, '.local-ai-stack', 'config.json');
+    const configPath = join(testDir, '.pondok-ai', 'config.json');
     const config = JSON.parse(readFileSync(configPath, 'utf-8'));
 
     expect(config.preset).toBe('standard');
@@ -72,11 +72,11 @@ describe('CLI Init Integration', () => {
     expect(config.services.api.enabled).toBe(true);
     expect(config.services.n8n.enabled).toBe(false);
 
-    expect(existsSync(join(testDir, '.local-ai-stack', 'api', 'Dockerfile'))).toBe(true);
-    expect(existsSync(join(testDir, '.local-ai-stack', 'api', 'src', 'index.ts'))).toBe(true);
+    expect(existsSync(join(testDir, '.pondok-ai', 'api', 'Dockerfile'))).toBe(true);
+    expect(existsSync(join(testDir, '.pondok-ai', 'api', 'src', 'index.ts'))).toBe(true);
 
     // .env should contain secrets
-    const envContent = readFileSync(join(testDir, '.local-ai-stack', '.env'), 'utf-8');
+    const envContent = readFileSync(join(testDir, '.pondok-ai', '.env'), 'utf-8');
     expect(envContent).toContain('POSTGRES_PASSWORD=');
     expect(envContent).toContain('API_SECRET_KEY=');
   });

@@ -12,7 +12,7 @@ interface DownOptions {
 
 export function createDownCommand(): Command {
   const cmd = new Command('down')
-    .description('Stop and remove the local AI stack')
+    .description('Stop and remove the pondok-ai stack')
     .option('-d, --dir <directory>', 'Working directory', process.cwd())
     .option('-v, --volumes', 'Also remove data volumes (destructive!)')
     .option('--force', 'Skip confirmation prompt')

@@ -17,7 +17,7 @@ export const LEGACY_DEFAULT_IMAGES = {
   postgres: 'postgres:16-alpine',
   qdrant: 'qdrant/qdrant:latest',
   n8n: 'n8nio/n8n:latest',
-  api: 'local-ai-stack-api:latest',
+  api: 'pondok-ai-api:latest',
 } as const;
 
 export const LEGACY_DEFAULT_API_IMAGE = LEGACY_DEFAULT_IMAGES.api;
@@ -81,7 +81,7 @@ export function getDefaultConfig(preset: Preset): StackConfig {
   return {
     version: 1,
     preset,
-    projectName: 'local-ai-stack',
+    projectName: 'pondok-ai',
     services: {
       ollama: {
         enabled: enabledServices.includes('ollama'),

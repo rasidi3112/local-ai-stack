@@ -20,7 +20,7 @@ function runCli(args: string): string {
 describe('CLI Help', () => {
   it('should display help when --help is passed', () => {
     const output = runCli('--help');
-    expect(output).toContain('local-ai-stack');
+    expect(output).toContain('pondok-ai');
     expect(output).toContain('Run your own private AI stack locally');
   });
 

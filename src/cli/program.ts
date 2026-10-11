@@ -22,7 +22,7 @@ export function createProgram(): Command {
   const program = new Command();
 
   program
-    .name('local-ai-stack')
+    .name('pondok-ai')
     .description('Run your own private AI stack locally with one command.')
     .version(VERSION, '-v, --version')
     .configureHelp({
@@ -59,7 +59,7 @@ export function createProgram(): Command {
       // Filter out Commander's default error messages for cleaner output
       if (str.includes('error:')) {
         const message = str.replace(/^error:\s*/, '').trim();
-        showError(message, 'Run "local-ai-stack --help" for usage information.');
+        showError(message, 'Run "pondok-ai --help" for usage information.');
       }
     },
   });

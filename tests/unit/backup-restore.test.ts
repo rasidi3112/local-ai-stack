@@ -11,8 +11,8 @@ describe('Persistent Data Backup & Restore with Integrity Validation', () => {
   let backupDir: string;
 
   beforeEach(() => {
-    testDir = mkdtempSync(join(tmpdir(), 'local-ai-backup-test-'));
-    backupDir = mkdtempSync(join(tmpdir(), 'local-ai-backup-dest-'));
+    testDir = mkdtempSync(join(tmpdir(), 'pondok-ai-backup-test-'));
+    backupDir = mkdtempSync(join(tmpdir(), 'pondok-ai-backup-dest-'));
 
     // Initialize config in testDir
     const configManager = new ConfigManager(testDir);
@@ -104,7 +104,7 @@ describe('Persistent Data Backup & Restore with Integrity Validation', () => {
     });
 
     // Create a new restore target directory
-    const restoreTargetDir = mkdtempSync(join(tmpdir(), 'local-ai-restore-target-'));
+    const restoreTargetDir = mkdtempSync(join(tmpdir(), 'pondok-ai-restore-target-'));
 
     await runRestore(backupDir, {
       dir: restoreTargetDir,

@@ -51,7 +51,7 @@ export async function runBackup(options: BackupOptions): Promise<string> {
 
   const config = configManager.loadConfig();
   if (!config) {
-    throw new Error('Stack not initialized. Run "local-ai-stack init" first.');
+    throw new Error('Stack not initialized. Run "pondok-ai init" first.');
   }
 
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');

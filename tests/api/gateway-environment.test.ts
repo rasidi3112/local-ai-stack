@@ -12,7 +12,7 @@ describe('gateway environment validation', () => {
   it('requires a populated API secret key', () => {
     expect(() =>
       validateGatewayEnvironment({ API_SECRET_KEY: 'replace_with_secure_random_api_key' }),
-    ).toThrow(/API_SECRET_KEY.*local-ai-stack init/);
+    ).toThrow(/API_SECRET_KEY.*pondok-ai init/);
   });
 
   it.each([
@@ -22,7 +22,7 @@ describe('gateway environment validation', () => {
     const env = { ...validGatewayEnv, [key]: value };
 
     expect(findInvalidGatewaySecrets(env)).toEqual([key]);
-    expect(() => validateGatewayEnvironment(env)).toThrow(/local-ai-stack init/);
+    expect(() => validateGatewayEnvironment(env)).toThrow(/pondok-ai init/);
   });
 
   it('does not require unrelated stack secrets in the gateway process', () => {

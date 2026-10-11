@@ -24,7 +24,7 @@ describe('CLI Config Command', () => {
   let testDir: string;
 
   beforeEach(() => {
-    testDir = mkdtempSync(join(tmpdir(), 'local-ai-stack-test-cfg-'));
+    testDir = mkdtempSync(join(tmpdir(), 'pondok-ai-test-cfg-'));
   });
 
   afterEach(() => {

@@ -20,7 +20,7 @@ describe('pinned image upgrades', () => {
   });
 
   it('migrates legacy defaults, preserves custom images, and restores the local gateway context', () => {
-    const directory = mkdtempSync(join(tmpdir(), 'local-ai-stack-update-'));
+    const directory = mkdtempSync(join(tmpdir(), 'pondok-ai-update-'));
     testDirectories.push(directory);
 
     const configManager = new ConfigManager(directory);

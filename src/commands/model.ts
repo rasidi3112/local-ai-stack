@@ -66,7 +66,7 @@ function getDockerClient(options: ModelOptions): { docker: DockerClient; config:
 
   const config = configManager.loadConfig();
   if (!config) {
-    showError('Stack not initialized.', 'Run "local-ai-stack init" first.');
+    showError('Stack not initialized.', 'Run "pondok-ai init" first.');
     process.exit(1);
   }
 
@@ -85,13 +85,13 @@ async function listModels(options: ModelOptions): Promise<void> {
   try {
     const result = await docker.execInContainer('ollama', ['ollama', 'list']);
     if (result.exitCode !== 0) {
-      showError('Failed to list models.', 'Make sure the stack is running with "local-ai-stack up".');
+      showError('Failed to list models.', 'Make sure the stack is running with "pondok-ai up".');
       process.exit(1);
     }
 
     if (!result.stdout.trim()) {
       logger.info('No models installed. Install one with:');
-      logger.raw('  local-ai-stack model install llama3.2\n');
+      logger.raw('  pondok-ai model install llama3.2\n');
       return;
     }
 
@@ -100,7 +100,7 @@ async function listModels(options: ModelOptions): Promise<void> {
   } catch (error) {
     showError(
       'Could not connect to Ollama.',
-      'Make sure the stack is running with "local-ai-stack up".',
+      'Make sure the stack is running with "pondok-ai up".',
     );
     process.exit(1);
   }
@@ -157,12 +157,12 @@ async function recommendModels(): Promise<void> {
     console.log();
   }
 
-  console.log(chalk.gray(`Install any compatible model with:\n  local-ai-stack model install <name>\n`));
+  console.log(chalk.gray(`Install any compatible model with:\n  pondok-ai model install <name>\n`));
 }
 
 async function installModel(model: string, options: ModelOptions): Promise<void> {
   if (!isValidModelName(model)) {
-    showError(`Invalid model name: ${model}`, 'Example: local-ai-stack model install llama3.2:3b');
+    showError(`Invalid model name: ${model}`, 'Example: pondok-ai model install llama3.2:3b');
     process.exit(1);
   }
 
@@ -192,7 +192,7 @@ async function installModel(model: string, options: ModelOptions): Promise<void>
       ]);
 
       if (!answer.proceed) {
-        logger.info('Installation cancelled. Use "local-ai-stack model recommend" to find compatible models.');
+        logger.info('Installation cancelled. Use "pondok-ai model recommend" to find compatible models.');
         return;
       }
     } else {
@@ -227,7 +227,7 @@ async function installModel(model: string, options: ModelOptions): Promise<void>
   } catch (error) {
     showError(
       'Could not connect to Ollama.',
-      'Make sure the stack is running with "local-ai-stack up".',
+      'Make sure the stack is running with "pondok-ai up".',
     );
     process.exit(1);
   }
@@ -252,7 +252,7 @@ async function removeModel(model: string, options: ModelOptions): Promise<void> 
   } catch (error) {
     showError(
       'Could not connect to Ollama.',
-      'Make sure the stack is running with "local-ai-stack up".',
+      'Make sure the stack is running with "pondok-ai up".',
     );
     process.exit(1);
   }
@@ -277,7 +277,7 @@ async function modelStatus(options: ModelOptions): Promise<void> {
   } catch (error) {
     showError(
       'Could not connect to Ollama.',
-      'Make sure the stack is running with "local-ai-stack up".',
+      'Make sure the stack is running with "pondok-ai up".',
     );
     process.exit(1);
   }

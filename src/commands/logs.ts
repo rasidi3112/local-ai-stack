@@ -29,7 +29,7 @@ async function runLogs(service: string | undefined, options: LogsOptions): Promi
 
   const config = configManager.loadConfig();
   if (!config) {
-    showError('Stack not initialized.', 'Run "local-ai-stack init" first.');
+    showError('Stack not initialized.', 'Run "pondok-ai init" first.');
     process.exit(1);
   }
 

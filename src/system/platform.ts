@@ -1,10 +1,10 @@
 import { platform } from 'node:os';
 
 /**
- * Get the default directory for local-ai-stack configuration.
+ * Get the default directory for pondok-ai configuration.
  */
 export function getDefaultStackDir(): string {
-  return '.local-ai-stack';
+  return '.pondok-ai';
 }
 
 /**

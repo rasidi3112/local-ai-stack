@@ -68,7 +68,7 @@ async function runUpdate(options: UpdateOptions): Promise<void> {
 
   const config = configManager.loadConfig();
   if (!config) {
-    showError('Stack not initialized.', 'Run "local-ai-stack init" first.');
+    showError('Stack not initialized.', 'Run "pondok-ai init" first.');
     process.exit(1);
   }
 
@@ -122,7 +122,7 @@ async function runUpdate(options: UpdateOptions): Promise<void> {
       const upCode = await docker.up();
       if (upCode !== 0) {
         restartSpinner.fail('Failed to restart updated services');
-        showError('Restart failed.', 'Check logs via "local-ai-stack logs".');
+        showError('Restart failed.', 'Check logs via "pondok-ai logs".');
         process.exit(1);
       }
 
@@ -141,9 +141,9 @@ async function runUpdate(options: UpdateOptions): Promise<void> {
         );
       }
     } else if (!isRunning) {
-      showSuccess('Configured images refreshed. Start the stack with "local-ai-stack up".');
+      showSuccess('Configured images refreshed. Start the stack with "pondok-ai up".');
     } else {
-      showSuccess('Configured images refreshed. Restart with "local-ai-stack restart" to apply.');
+      showSuccess('Configured images refreshed. Restart with "pondok-ai restart" to apply.');
     }
   } catch (error) {
     spinner.fail('Failed to pull images');

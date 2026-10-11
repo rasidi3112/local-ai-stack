@@ -22,7 +22,7 @@ interface InitOptions {
 
 export function createInitCommand(): Command {
   const cmd = new Command('init')
-    .description('Initialize a new local AI stack')
+    .description('Initialize a new pondok-ai stack')
     .option('-p, --preset <preset>', 'Stack preset (minimal, standard, full)')
     .option('--non-interactive', 'Run without prompts, using defaults')
     .option('-y, --yes', 'Run without prompts, using defaults')
@@ -58,7 +58,7 @@ async function runInit(options: InitOptions): Promise<void> {
     if (existingConfig) {
       showError(
         'Stack already initialized.',
-        'Use "local-ai-stack config" to view or modify the configuration.\n  Use "local-ai-stack reset" to start fresh.',
+        'Use "pondok-ai config" to view or modify the configuration.\n  Use "pondok-ai reset" to start fresh.',
       );
       process.exit(1);
     }
@@ -76,7 +76,7 @@ async function runInit(options: InitOptions): Promise<void> {
     } else {
       showError(
         'System requirements not met.',
-        'Fix the issues above, run "local-ai-stack doctor", or use --force to initialize anyway.',
+        'Fix the issues above, run "pondok-ai doctor", or use --force to initialize anyway.',
       );
       process.exit(1);
     }
@@ -158,9 +158,9 @@ async function runInit(options: InitOptions): Promise<void> {
 
   logger.info('Next steps:\n');
   logger.raw('  Start the stack:');
-  logger.raw('    local-ai-stack up\n');
+  logger.raw('    pondok-ai up\n');
   logger.raw('  Check status:');
-  logger.raw('    local-ai-stack status\n');
+  logger.raw('    pondok-ai status\n');
   logger.raw('  View logs:');
-  logger.raw('    local-ai-stack logs\n');
+  logger.raw('    pondok-ai logs\n');
 }

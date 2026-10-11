@@ -45,7 +45,7 @@ async function runReset(options: ResetOptions): Promise<void> {
       {
         type: 'confirm',
         name: 'confirm',
-        message: 'This will stop services and reset your local-ai-stack configuration. Are you sure?',
+        message: 'This will stop services and reset your pondok-ai configuration. Are you sure?',
         default: false,
       },
     ]);
@@ -101,9 +101,9 @@ async function runReset(options: ResetOptions): Promise<void> {
     rmSync(configManager.getStackDir(), { recursive: true, force: true });
 
     if (shouldDeleteData) {
-      showSuccess('Stack configuration and data volumes completely removed. Run "local-ai-stack init" to start fresh.');
+      showSuccess('Stack configuration and data volumes completely removed. Run "pondok-ai init" to start fresh.');
     } else {
-      showSuccess('Stack configuration reset. Data volumes preserved. Run "local-ai-stack init" to reconfigure.');
+      showSuccess('Stack configuration reset. Data volumes preserved. Run "pondok-ai init" to reconfigure.');
     }
   } catch (error) {
     showError(

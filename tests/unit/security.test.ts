@@ -12,7 +12,7 @@ describe('Privacy-First Security & Data Safety', () => {
   let testDir: string;
 
   beforeEach(() => {
-    testDir = mkdtempSync(join(tmpdir(), 'local-ai-security-test-'));
+    testDir = mkdtempSync(join(tmpdir(), 'pondok-ai-security-test-'));
   });
 
   afterEach(() => {

@@ -1,10 +1,10 @@
 {
-  "name": "local-ai-stack",
+  "name": "pondok-ai",
   "version": "0.2.4",
   "description": "Run your own private AI stack locally with one command.",
   "type": "module",
   "bin": {
-    "local-ai-stack": "dist/index.js"
+    "pondok-ai": "dist/index.js"
   },
   "main": "./dist/index.js",
   "scripts": {
@@ -52,11 +52,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rasidi3112/local-ai-stack.git"
+    "url": "git+https://github.com/rasidi3112/pondok-ai.git"
   },
-  "homepage": "https://github.com/rasidi3112/local-ai-stack",
+  "homepage": "https://github.com/rasidi3112/pondok-ai",
   "bugs": {
-    "url": "https://github.com/rasidi3112/local-ai-stack/issues"
+    "url": "https://github.com/rasidi3112/pondok-ai/issues"
   },
   "dependencies": {
     "boxen": "^8.0.1",

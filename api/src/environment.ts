@@ -24,7 +24,7 @@ export function validateGatewayEnvironment(env: NodeJS.ProcessEnv): void {
 
   if (invalidSecrets.length > 0) {
     throw new Error(
-      `Invalid required secret value(s): ${invalidSecrets.join(', ')}. Run "local-ai-stack init" to generate secure credentials.`,
+      `Invalid required secret value(s): ${invalidSecrets.join(', ')}. Run "pondok-ai init" to generate secure credentials.`,
     );
   }
 }

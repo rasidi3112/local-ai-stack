@@ -21,7 +21,7 @@ export function createConfigCommand(): Command {
 
       const config = configManager.loadConfig();
       if (!config) {
-        showError('Stack not initialized.', 'Run "local-ai-stack init" first.');
+        showError('Stack not initialized.', 'Run "pondok-ai init" first.');
         process.exit(1);
       }
 
@@ -48,7 +48,7 @@ export function createConfigCommand(): Command {
 
       const config = configManager.loadConfig();
       if (!config) {
-        showError('Stack not initialized.', 'Run "local-ai-stack init" first.');
+        showError('Stack not initialized.', 'Run "pondok-ai init" first.');
         process.exit(1);
       }
 
@@ -98,7 +98,7 @@ export function createConfigCommand(): Command {
       logger.success('Docker Compose file regenerated');
 
       logger.info('\nRestart the stack to apply changes:');
-      logger.raw('  local-ai-stack restart\n');
+      logger.raw('  pondok-ai restart\n');
     });
 
   // Default action (no subcommand) — show config
@@ -108,7 +108,7 @@ export function createConfigCommand(): Command {
 
     const config = configManager.loadConfig();
     if (!config) {
-      showError('Stack not initialized.', 'Run "local-ai-stack init" first.');
+      showError('Stack not initialized.', 'Run "pondok-ai init" first.');
       process.exit(1);
     }
 

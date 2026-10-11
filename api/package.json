@@ -1,7 +1,7 @@
 {
-  "name": "local-ai-stack-api",
+  "name": "pondok-ai-api",
   "version": "0.1.0",
-  "description": "OpenAI-compatible API gateway for local-ai-stack",
+  "description": "OpenAI-compatible API gateway for pondok-ai",
   "type": "module",
   "main": "dist/index.js",
   "engines": {

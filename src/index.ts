@@ -15,7 +15,7 @@ async function main(): Promise<void> {
 
     showError(
       error instanceof Error ? error.message : 'An unexpected error occurred.',
-      'Please report this issue at https://github.com/rasidi3112/local-ai-stack/issues',
+      'Please report this issue at https://github.com/rasidi3112/pondok-ai/issues',
     );
     process.exit(1);
   }

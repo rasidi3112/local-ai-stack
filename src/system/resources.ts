@@ -22,7 +22,7 @@ export function copyGatewayBuildContext(destination: string): void {
 
   if (!existsSync(source)) {
     throw new Error(
-      'Gateway build files are unavailable. Reinstall local-ai-stack and run init again.',
+      'Gateway build files are unavailable. Reinstall pondok-ai and run init again.',
     );
   }
 

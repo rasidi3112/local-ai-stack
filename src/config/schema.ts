@@ -1,5 +1,5 @@
 /**
- * Configuration schema types for local-ai-stack.
+ * Configuration schema types for pondok-ai.
  */
 
 export type Preset = 'minimal' | 'standard' | 'full';

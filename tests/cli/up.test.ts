@@ -8,7 +8,7 @@ import { getDefaultConfig } from '../../src/config/defaults.js';
 const CLI_PATH = resolve(import.meta.dirname, '../../dist/index.js');
 
 function createStack(testDir: string, invalidKey: string, invalidValue: string): void {
-  const stackDir = join(testDir, '.local-ai-stack');
+  const stackDir = join(testDir, '.pondok-ai');
   mkdirSync(stackDir, { recursive: true });
   writeFileSync(join(stackDir, 'config.json'), `${JSON.stringify(getDefaultConfig('minimal'))}\n`);
 
@@ -48,7 +48,7 @@ describe('CLI up credential guard', () => {
   let testDir: string;
 
   beforeEach(() => {
-    testDir = mkdtempSync(join(tmpdir(), 'local-ai-stack-up-test-'));
+    testDir = mkdtempSync(join(tmpdir(), 'pondok-ai-up-test-'));
   });
 
   afterEach(() => {
@@ -66,7 +66,7 @@ describe('CLI up credential guard', () => {
 
     expect(result.status).toBe(1);
     expect(result.output).toContain(`Invalid required secret value(s): ${key}`);
-    expect(result.output).toContain('local-ai-stack init');
+    expect(result.output).toContain('pondok-ai init');
     expect(result.output).not.toContain('Validating Docker Compose configuration');
   });
 });

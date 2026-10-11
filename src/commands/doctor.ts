@@ -7,7 +7,7 @@ import { logger } from '../utils/logger.js';
 
 export function createDoctorCommand(): Command {
   const cmd = new Command('doctor')
-    .description('Diagnose your environment for running local-ai-stack')
+    .description('Diagnose your environment for running pondok-ai')
     .action(async () => {
       await runDoctor();
     });
@@ -83,5 +83,5 @@ async function showRecommendations(system: SystemInfo): Promise<void> {
   console.log(chalk.bold('Model Recommendations:'));
   console.log(`  → Recommended default: ${chalk.green.bold(report.recommendedDefault.name)} (${report.recommendedDefault.displayName})`);
   console.log(`  → ${report.compatibleModels.length} models verified compatible with your hardware.`);
-  console.log(chalk.gray('  → Run "local-ai-stack model recommend" to inspect the full compatibility matrix.\n'));
+  console.log(chalk.gray('  → Run "pondok-ai model recommend" to inspect the full compatibility matrix.\n'));
 }

@@ -187,7 +187,7 @@ export async function runRestore(backupPath: string, options: RestoreOptions): P
     }
 
     restoreSpinner.succeed('Configuration and data restored successfully');
-    showSuccess('Stack restored from backup. Run "local-ai-stack up" to start services.');
+    showSuccess('Stack restored from backup. Run "pondok-ai up" to start services.');
   } catch (error) {
     restoreSpinner.fail('Restore failed');
     throw error;

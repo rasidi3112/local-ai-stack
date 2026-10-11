@@ -13,7 +13,7 @@ interface UpOptions {
 
 export function createUpCommand(): Command {
   const cmd = new Command('up')
-    .description('Start the local AI stack')
+    .description('Start the pondok-ai stack')
     .option('-d, --dir <directory>', 'Working directory', process.cwd())
     .option('--no-healthcheck', 'Skip waiting for service health checks')
     .option('-t, --timeout <seconds>', 'Timeout in seconds for health checks', '45')
@@ -34,7 +34,7 @@ async function runUp(options: UpOptions): Promise<void> {
   if (!config) {
     showError(
       'Stack not initialized.',
-      'Run "local-ai-stack init" first to create a configuration.',
+      'Run "pondok-ai init" first to create a configuration.',
     );
     process.exit(1);
   }
@@ -43,7 +43,7 @@ async function runUp(options: UpOptions): Promise<void> {
   if (invalidSecrets.length > 0) {
     showError(
       `Invalid required secret value(s): ${invalidSecrets.join(', ')}`,
-      'Run "local-ai-stack init" to generate secure credentials before starting the stack.',
+      'Run "pondok-ai init" to generate secure credentials before starting the stack.',
     );
     process.exit(1);
   }
@@ -63,7 +63,7 @@ async function runUp(options: UpOptions): Promise<void> {
       spinner.fail('Docker Compose validation failed');
       showError(
         'Invalid Docker Compose configuration.',
-        validation.error ?? 'Please check your configuration or re-run "local-ai-stack init --force".',
+        validation.error ?? 'Please check your configuration or re-run "pondok-ai init --force".',
       );
       process.exit(1);
     }
@@ -75,7 +75,7 @@ async function runUp(options: UpOptions): Promise<void> {
       spinner.fail('Failed to start services');
       showError(
         'Docker Compose failed.',
-        'Run "local-ai-stack logs" to see what went wrong.\n  Run "local-ai-stack doctor" to check your environment.',
+        'Run "pondok-ai logs" to see what went wrong.\n  Run "pondok-ai doctor" to check your environment.',
       );
       process.exit(1);
     }

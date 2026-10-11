@@ -10,7 +10,7 @@ import { SERVICE_REGISTRY } from '../services/registry.js';
  */
 export function showBanner(): void {
   const banner = boxen(
-    `${chalk.bold.cyan('LOCAL AI STACK')}\n${chalk.gray('Your private AI environment')}`,
+    `${chalk.bold.cyan('PONDOK AI')}\n${chalk.gray('Your private AI environment')}`,
     {
       padding: 1,
       margin: { top: 1, bottom: 1, left: 0, right: 0 },
@@ -77,7 +77,7 @@ export function showServiceStatus(statuses: ServiceStatus[]): void {
  * Display the URLs for all enabled services after startup.
  */
 export function showServiceUrls(config: StackConfig): void {
-  console.log(chalk.bold.green('\n🎉 Your local AI stack is ready!\n'));
+  console.log(chalk.bold.green('\n🎉 Your pondok-ai stack is ready!\n'));
 
   const services = config.services;
   const bind = config.network.bindAddress === '0.0.0.0' ? 'localhost' : config.network.bindAddress;

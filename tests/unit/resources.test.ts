@@ -14,7 +14,7 @@ describe('gateway build resources', () => {
   });
 
   it('copies the gateway build context when executed from the source checkout', () => {
-    const directory = mkdtempSync(join(tmpdir(), 'local-ai-stack-resources-'));
+    const directory = mkdtempSync(join(tmpdir(), 'pondok-ai-resources-'));
     testDirectories.push(directory);
 
     const destination = join(directory, 'api');

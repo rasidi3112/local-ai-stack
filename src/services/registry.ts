@@ -54,7 +54,7 @@ export const SERVICE_REGISTRY: Record<string, ServiceMeta> = {
     description: 'OpenAI-compatible API proxy',
     defaultPort: 8000,
     healthEndpoint: 'http://localhost:8000/health',
-    docsUrl: 'https://github.com/rasidi3112/local-ai-stack',
+    docsUrl: 'https://github.com/rasidi3112/pondok-ai',
     isInternal: false,
   },
   n8n: {

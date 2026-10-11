@@ -6,7 +6,7 @@ export async function statusRoute(app: FastifyInstance): Promise<void> {
     const memUsage = process.memoryUsage();
 
     return reply.send({
-      service: 'local-ai-stack-api',
+      service: 'pondok-ai-api',
       version: '0.1.0',
       uptime: Math.floor(uptime),
       memory: {
