@@ -155,7 +155,7 @@ export function generateComposeFile(config: StackConfig, _env?: GeneratedEnv): s
       volumes: ['qdrant-data:/qdrant/storage'],
       networks: ['local-ai-network'],
       healthcheck: {
-        test: ['CMD-SHELL', 'curl -f http://localhost:6333/healthz || exit 1'],
+        test: ['CMD', 'bash', '-c', ':> /dev/tcp/127.0.0.1/6333'],
         interval: '30s',
         timeout: '10s',
         retries: 3,
@@ -198,7 +198,12 @@ export function generateComposeFile(config: StackConfig, _env?: GeneratedEnv): s
       networks: ['local-ai-network'],
       depends_on: apiDependsOn,
       healthcheck: {
-        test: ['CMD-SHELL', 'curl -f http://localhost:8000/health || exit 1'],
+        test: [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:8000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ],
         interval: '30s',
         timeout: '10s',
         retries: 3,

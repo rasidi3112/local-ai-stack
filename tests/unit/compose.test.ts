@@ -144,7 +144,7 @@ describe('Docker Compose Generator', () => {
       expect(services.api.build).toEqual({ context: './api' });
     });
 
-    it('should include health checks', () => {
+    it('should include health checks for all health-checkable services', () => {
       const config = getDefaultConfig('standard');
       const yaml = generateComposeFile(config, mockEnv);
       const parsed = yamlLoad(yaml) as Record<string, unknown>;
@@ -152,6 +152,7 @@ describe('Docker Compose Generator', () => {
       expect(services.ollama.healthcheck).toBeDefined();
       expect(services.postgres.healthcheck).toBeDefined();
       expect(services.qdrant.healthcheck).toBeDefined();
+      expect(services.api.healthcheck).toBeDefined();
     });
 
     it('should use ollama list and not use curl for ollama health check', () => {
@@ -161,8 +162,36 @@ describe('Docker Compose Generator', () => {
       const services = parsed.services as Record<string, { healthcheck?: { test: string[] } }>;
 
       expect(services.ollama.healthcheck?.test).toEqual(['CMD', 'ollama', 'list']);
-      expect(services.ollama.healthcheck?.test).not.toContain('curl');
       const testCommand = services.ollama.healthcheck?.test.join(' ') ?? '';
+      expect(testCommand).not.toContain('curl');
+      expect(testCommand).not.toContain('wget');
+    });
+
+    it('should use bash tcp probe and not use curl or wget for qdrant health check', () => {
+      const config = getDefaultConfig('standard');
+      const yaml = generateComposeFile(config, mockEnv);
+      const parsed = yamlLoad(yaml) as Record<string, unknown>;
+      const services = parsed.services as Record<string, { healthcheck?: { test: string[] } }>;
+
+      expect(services.qdrant.healthcheck?.test).toEqual(['CMD', 'bash', '-c', ':> /dev/tcp/127.0.0.1/6333']);
+      const testCommand = services.qdrant.healthcheck?.test.join(' ') ?? '';
+      expect(testCommand).not.toContain('curl');
+      expect(testCommand).not.toContain('wget');
+    });
+
+    it('should use node fetch probe and not use curl for api health check', () => {
+      const config = getDefaultConfig('standard');
+      const yaml = generateComposeFile(config, mockEnv);
+      const parsed = yamlLoad(yaml) as Record<string, unknown>;
+      const services = parsed.services as Record<string, { healthcheck?: { test: string[] } }>;
+
+      expect(services.api.healthcheck?.test).toEqual([
+        'CMD',
+        'node',
+        '-e',
+        "fetch('http://127.0.0.1:8000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+      ]);
+      const testCommand = services.api.healthcheck?.test.join(' ') ?? '';
       expect(testCommand).not.toContain('curl');
     });
   });

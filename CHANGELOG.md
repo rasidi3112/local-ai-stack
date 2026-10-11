@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Replaced missing `curl` in Ollama container health check with `ollama list` (`["CMD", "ollama", "list"]`) to prevent services from failing startup due to unhealthy status.
+- Replaced missing `curl` in Qdrant container health check with bash TCP socket probe (`["CMD", "bash", "-c", ":> /dev/tcp/127.0.0.1/6333"]`). Note that this health check only verifies that the TCP port is open and listening.
+- Replaced missing `curl` in API Gateway container health check with Node.js built-in fetch probe (`["CMD", "node", "-e", "fetch('http://127.0.0.1:8000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]`) compatible with the Alpine base image.
 
 ## [0.2.0] - 2026-10-11
 
