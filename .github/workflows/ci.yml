@@ -50,7 +50,7 @@ jobs:
   e2e-smoke:
     name: E2E Smoke (${{ matrix.runner }})
     runs-on: ${{ matrix.runner }}
-    timeout-minutes: 20
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -120,6 +120,104 @@ jobs:
           done
           echo "::error::Gateway /health did not respond within 120 s"
           exit 1
+
+      - name: Pull tiny Ollama model
+        run: |
+          echo "Pulling model smollm:135m..."
+          docker exec local-ai-stack-ollama ollama pull smollm:135m
+          echo "=== Installed models ==="
+          docker exec local-ai-stack-ollama ollama list
+
+      - name: 'Assert: GET /v1/models with Bearer lists installed model'
+        run: |
+          RESP=$(curl -s -w '\n%{http_code}' \
+            -H "Authorization: Bearer $API_SECRET_KEY" \
+            -H 'Host: localhost:8000' \
+            http://localhost:8000/v1/models)
+          STATUS=$(echo "$RESP" | tail -1)
+          BODY=$(echo "$RESP" | sed '$d')
+          echo "GET /v1/models HTTP Status: $STATUS"
+          if [ "$STATUS" != "200" ]; then
+            echo "::error::Expected 200 from /v1/models, got $STATUS"
+            exit 1
+          fi
+          echo "$BODY" | node -e "
+            let d='';
+            process.stdin.on('data', c => d += c);
+            process.stdin.on('end', () => {
+              try {
+                const json = JSON.parse(d);
+                const models = (json.data || []).map(m => m.id);
+                console.log('Installed models found in /v1/models:', models.join(', '));
+                const found = models.some(m => m.includes('smollm:135m'));
+                if (!found) {
+                  console.error('Expected smollm:135m to be listed in /v1/models');
+                  process.exit(1);
+                }
+              } catch (e) {
+                console.error('Failed to parse /v1/models response JSON:', e.message);
+                process.exit(1);
+              }
+            });
+          "
+
+      - name: 'Assert: POST /v1/chat/completions with Bearer'
+        run: |
+          PAYLOAD='{"model":"smollm:135m","messages":[{"role":"user","content":"Say hi in one word."}],"stream":false,"max_tokens":10}'
+          RESP=$(curl -s -w '\n%{http_code}' \
+            -H "Authorization: Bearer $API_SECRET_KEY" \
+            -H 'Content-Type: application/json' \
+            -H 'Host: localhost:8000' \
+            -d "$PAYLOAD" \
+            http://localhost:8000/v1/chat/completions)
+          STATUS=$(echo "$RESP" | tail -1)
+          BODY=$(echo "$RESP" | sed '$d')
+          echo "Chat HTTP Status: $STATUS"
+          if [ "$STATUS" != "200" ]; then
+            echo "::error::Expected 200 from /v1/chat/completions, got $STATUS"
+            exit 1
+          fi
+          echo "$BODY" | node -e "
+            let d='';
+            process.stdin.on('data', c => d += c);
+            process.stdin.on('end', () => {
+              try {
+                const json = JSON.parse(d);
+                const content = json.choices?.[0]?.message?.content ?? '';
+                console.log('Chat answer length:', content.length);
+                if (content.trim().length === 0) {
+                  console.error('choices[0].message.content is empty');
+                  process.exit(1);
+                }
+              } catch (e) {
+                console.error('Failed to parse chat completion response JSON:', e.message);
+                process.exit(1);
+              }
+            });
+          "
+
+      - name: 'Assert: Open WebUI responds with 200'
+        run: |
+          echo "Polling Open WebUI at http://localhost:3000/ (up to 120s)..."
+          READY=0
+          for i in $(seq 1 120); do
+            STATUS=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/ || true)
+            if [ "$STATUS" = "200" ]; then
+              echo "Open WebUI returned HTTP 200 after ${i}s"
+              READY=1
+              break
+            fi
+            sleep 1
+          done
+          if [ "$READY" -ne 1 ]; then
+            echo "::error::Open WebUI did not return HTTP 200 within 120s (last status: $STATUS)"
+            exit 1
+          fi
+
+      - name: Reset rate-limit window before rate-limit assertions
+        run: |
+          echo "Waiting 65s for the 60s rate-limit window to expire cleanly..."
+          sleep 65
 
       - name: 'Assert: no Authorization → 401'
         run: |
@@ -231,6 +329,10 @@ jobs:
             echo ""
             echo "=== docker logs local-ai-stack-ollama (last 50 lines) ==="
             docker logs --tail 50 local-ai-stack-ollama 2>&1 \
+              | grep -v -E '(PASSWORD|KEY|SECRET|TOKEN)=' || true
+            echo ""
+            echo "=== docker logs local-ai-stack-api (last 50 lines) ==="
+            docker logs --tail 50 local-ai-stack-api 2>&1 \
               | grep -v -E '(PASSWORD|KEY|SECRET|TOKEN)=' || true
             echo ""
             echo "=== docker logs local-ai-stack-qdrant (last 50 lines) ==="
