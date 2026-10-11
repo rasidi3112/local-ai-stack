@@ -1,17 +1,17 @@
-# local-ai-stack — Configuration Guide
+# pondok-ai — Configuration Guide
 
-`local-ai-stack` manages configuration using a project-local `local-ai-stack.json` file alongside a companion `.env` file for sensitive keys.
+`pondok-ai` manages configuration using a project-local `pondok-ai.json` file alongside a companion `.env` file for sensitive keys.
 
 ---
 
-## Configuration File (`local-ai-stack.json`)
+## Configuration File (`pondok-ai.json`)
 
-When you run `local-ai-stack init` (or non-interactively via `local-ai-stack init --preset <preset> --yes`), this file is generated in your project root:
+When you run `pondok-ai init` (or non-interactively via `pondok-ai init --preset <preset> --yes`), this file is generated in your project root:
 
 ```json
 {
   "version": 1,
-  "projectName": "local-ai-stack",
+  "projectName": "pondok-ai",
   "preset": "standard",
   "network": {
     "bindAddress": "127.0.0.1",
@@ -115,15 +115,15 @@ You can inspect and update your configuration anytime using the CLI:
 
 ```bash
 # View active configuration
-local-ai-stack config
+pondok-ai config
 
 # Toggle services or change settings interactively
-local-ai-stack config --edit
+pondok-ai config --edit
 
 # Diagnose configuration issues
-local-ai-stack doctor
+pondok-ai doctor
 ```
 
 ### Pinned image upgrades
 
-Service images are pinned to explicit versions. `local-ai-stack update` only re-pulls the image versions in the current configuration. After installing a newer CLI release, use `local-ai-stack update --upgrade-images` to migrate the previous CLI defaults to its new pins. Custom image values are not changed.
+Service images are pinned to explicit versions. `pondok-ai update` only re-pulls the image versions in the current configuration. After installing a newer CLI release, use `pondok-ai update --upgrade-images` to migrate the previous CLI defaults to its new pins. Custom image values are not changed.

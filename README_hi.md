@@ -1,4 +1,4 @@
-# local-ai-stack
+# pondok-ai
 
 [English](README.md) · [Bahasa Indonesia](README_id.md) · [한국어](README_ko.md) · [العربية](README_ar.md) · [Español](README_es.md) · [中文](README_zh.md) · [Français](README_fr.md) · [日本語](README_ja.md) · [Deutsch](README_de.md) · [Português](README_pt.md) · [Русский](README_ru.md) · **हिन्दी** · [Türkçe](README_tr.md) · [Italiano](README_it.md) · [Tiếng Việt](README_vi.md)
 
@@ -20,13 +20,13 @@
 
 ## अवलोकन
 
-`local-ai-stack` एक डेवलपर-फ्रेंडली, शून्य-घर्षण CLI और कंटेनर ऑर्केस्ट्रेशन टूलकिट है जो आपके स्थानीय वर्कस्टेशन पर सीधे एक पूर्ण, निजी AI वातावरण बूट करता है।
+`pondok-ai` एक डेवलपर-फ्रेंडली, शून्य-घर्षण CLI और कंटेनर ऑर्केस्ट्रेशन टूलकिट है जो आपके स्थानीय वर्कस्टेशन पर सीधे एक पूर्ण, निजी AI वातावरण बूट करता है।
 
-**Docker Compose v2** द्वारा संचालित, `local-ai-stack` आपको सेकंड में स्थानीय LLM, चैट UI, वेक्टर सर्च, डेटाबेस पर्सिस्टेंस, और OpenAI-संगत API गेटवे प्रदान करता है। प्रॉम्प्ट, चैट और एम्बेडिंग आपकी मशीन पर प्रोसेस होते हैं; कंटेनर इमेज और मॉडल वेट को पुल करने के लिए इंटरनेट कनेक्शन की आवश्यकता होती है।
+**Docker Compose v2** द्वारा संचालित, `pondok-ai` आपको सेकंड में स्थानीय LLM, चैट UI, वेक्टर सर्च, डेटाबेस पर्सिस्टेंस, और OpenAI-संगत API गेटवे प्रदान करता है। प्रॉम्प्ट, चैट और एम्बेडिंग आपकी मशीन पर प्रोसेस होते हैं; कंटेनर इमेज और मॉडल वेट को पुल करने के लिए इंटरनेट कनेक्शन की आवश्यकता होती है।
 
 ```bash
-npx local-ai-stack init
-npx local-ai-stack up
+npx pondok-ai init
+npx pondok-ai up
 ```
 
 ---
@@ -83,12 +83,12 @@ npx local-ai-stack up
 
 #### macOS और Linux
 ```bash
-curl -fsSL https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/rasidi3112/pondok-ai/main/scripts/install.sh | bash
 ```
 
 #### Windows (PowerShell)
 ```powershell
-iwr -useb https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.ps1 | iex
+iwr -useb https://raw.githubusercontent.com/rasidi3112/pondok-ai/main/scripts/install.ps1 | iex
 ```
 
 ### npx के माध्यम से मैनुअल त्वरित शुरुआत
@@ -98,15 +98,15 @@ iwr -useb https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scrip
 #### 1. स्टैक को इनिशियलाइज़ करें
 ```bash
 # हार्डवेयर ऑटो-डिटेक्शन के साथ इंटरैक्टिव सेटअप विज़ार्ड
-npx local-ai-stack init
+npx pondok-ai init
 
 # या चुने गए प्रीसेट के साथ नॉन-इंटरैक्टिव
-npx local-ai-stack init --preset standard --yes
+npx pondok-ai init --preset standard --yes
 ```
 
 #### 2. स्वचालित स्वास्थ्य जांच के साथ सेवाएं शुरू करें
 ```bash
-npx local-ai-stack up
+npx pondok-ai up
 ```
 
 एक बार चलने के बाद, अपने स्टैक तक पहुंचें:
@@ -118,10 +118,10 @@ npx local-ai-stack up
 #### 3. स्मार्ट हार्डवेयर डिटेक्शन और मॉडल रेकमेंडेशन
 ```bash
 # अपने RAM/VRAM के आधार पर स्मार्ट हार्डवेयर-जागरूक सिफारिशें प्राप्त करें
-npx local-ai-stack model recommend
+npx pondok-ai model recommend
 
 # प्री-फ्लाइट मेमोरी और डिस्क सुरक्षा जांच के साथ मॉडल इंस्टॉल करें
-npx local-ai-stack model install llama3.2:3b
+npx pondok-ai model install llama3.2:3b
 ```
 
 ---
@@ -130,27 +130,27 @@ npx local-ai-stack model install llama3.2:3b
 
 | कमांड | विवरण |
 |---|---|
-| `local-ai-stack init` | हार्डवेयर डिटेक्शन के साथ इंटरैक्टिव कॉन्फ़िगरेशन विज़ार्ड चलाएं |
-| `local-ai-stack up` | Compose कॉन्फ़िग को वैलिडेट करें, कंटेनर बूट करें, और हेल्थ चेक की प्रतीक्षा करें |
-| `local-ai-stack down` | स्टैक कंटेनर को रोकें और हटाएं |
-| `local-ai-stack start` | मौजूदा रुके हुए कंटेनर शुरू करें |
-| `local-ai-stack stop` | चल रहे कंटेनर को रोकें |
-| `local-ai-stack restart` | स्टैक कंटेनर को रीस्टार्ट करें |
-| `local-ai-stack status` | कंटेनर हेल्थ और URL दिखाएं |
-| `local-ai-stack logs [सेवा]` | लॉग देखें (स्ट्रीम करने के लिए `-f`) |
-| `local-ai-stack doctor` | Docker, RAM, GPU/VRAM, पोर्ट्स और मॉडल सिफारिशों का निदान करें |
-| `local-ai-stack update` | स्वचालित बैकअप और हेल्थ चेक के साथ कॉन्फ़िगर किए गए पिन किए गए इमेज को फिर से पुल करें |
-| `local-ai-stack backup` | SHA-256 इंटीग्रिटी चेक के साथ कॉन्फ़िग और डेटा वॉल्यूम का बैकअप लें (एन्क्रिप्ट नहीं) |
-| `local-ai-stack restore <पथ>` | SHA-256 इंटीग्रिटी-चेक किए गए बैकअप से रिस्टोर करें (एन्क्रिप्ट नहीं) |
-| `local-ai-stack reset` | स्टैक को रीसेट करें (`--delete-data` निर्दिष्ट न होने पर वॉल्यूम संरक्षित करता है) |
-| `local-ai-stack config` | सक्रिय कॉन्फ़िगरेशन का निरीक्षण या संपादन करें |
-| `local-ai-stack model list` | डाउनलोड किए गए मॉडल की सूची बनाएं |
-| `local-ai-stack model recommend` | हार्डवेयर-अनुकूलित मॉडल सिफारिशें (RAM, VRAM, डिस्क) |
-| `local-ai-stack model install <नाम>` | प्री-फ्लाइट रिसोर्स सुरक्षा जांच के साथ नया मॉडल पुल करें |
-| `local-ai-stack model remove <नाम>` | इंस्टॉल किए गए मॉडल को डिलीट करें |
-| `local-ai-stack model status` | मॉडल रिसोर्स फुटप्रिंट का निरीक्षण करें |
+| `pondok-ai init` | हार्डवेयर डिटेक्शन के साथ इंटरैक्टिव कॉन्फ़िगरेशन विज़ार्ड चलाएं |
+| `pondok-ai up` | Compose कॉन्फ़िग को वैलिडेट करें, कंटेनर बूट करें, और हेल्थ चेक की प्रतीक्षा करें |
+| `pondok-ai down` | स्टैक कंटेनर को रोकें और हटाएं |
+| `pondok-ai start` | मौजूदा रुके हुए कंटेनर शुरू करें |
+| `pondok-ai stop` | चल रहे कंटेनर को रोकें |
+| `pondok-ai restart` | स्टैक कंटेनर को रीस्टार्ट करें |
+| `pondok-ai status` | कंटेनर हेल्थ और URL दिखाएं |
+| `pondok-ai logs [सेवा]` | लॉग देखें (स्ट्रीम करने के लिए `-f`) |
+| `pondok-ai doctor` | Docker, RAM, GPU/VRAM, पोर्ट्स और मॉडल सिफारिशों का निदान करें |
+| `pondok-ai update` | स्वचालित बैकअप और हेल्थ चेक के साथ कॉन्फ़िगर किए गए पिन किए गए इमेज को फिर से पुल करें |
+| `pondok-ai backup` | SHA-256 इंटीग्रिटी चेक के साथ कॉन्फ़िग और डेटा वॉल्यूम का बैकअप लें (एन्क्रिप्ट नहीं) |
+| `pondok-ai restore <पथ>` | SHA-256 इंटीग्रिटी-चेक किए गए बैकअप से रिस्टोर करें (एन्क्रिप्ट नहीं) |
+| `pondok-ai reset` | स्टैक को रीसेट करें (`--delete-data` निर्दिष्ट न होने पर वॉल्यूम संरक्षित करता है) |
+| `pondok-ai config` | सक्रिय कॉन्फ़िगरेशन का निरीक्षण या संपादन करें |
+| `pondok-ai model list` | डाउनलोड किए गए मॉडल की सूची बनाएं |
+| `pondok-ai model recommend` | हार्डवेयर-अनुकूलित मॉडल सिफारिशें (RAM, VRAM, डिस्क) |
+| `pondok-ai model install <नाम>` | प्री-फ्लाइट रिसोर्स सुरक्षा जांच के साथ नया मॉडल पुल करें |
+| `pondok-ai model remove <नाम>` | इंस्टॉल किए गए मॉडल को डिलीट करें |
+| `pondok-ai model status` | मॉडल रिसोर्स फुटप्रिंट का निरीक्षण करें |
 
-इमेज स्पष्ट संस्करणों पर पिन की जाती हैं। `local-ai-stack update` कॉन्फ़िगर किए गए संस्करणों को रिफ्रेश करता है; यह नए रिलीज का चयन नहीं करता है। एक नया CLI इंस्टॉल करने के बाद, केवल CLI के लिगेसी डिफ़ॉल्ट इमेज टैग को माइग्रेट करने के लिए `local-ai-stack update --upgrade-images` चलाएं। कस्टम इमेज वैल्यू संरक्षित हैं।
+इमेज स्पष्ट संस्करणों पर पिन की जाती हैं। `pondok-ai update` कॉन्फ़िगर किए गए संस्करणों को रिफ्रेश करता है; यह नए रिलीज का चयन नहीं करता है। एक नया CLI इंस्टॉल करने के बाद, केवल CLI के लिगेसी डिफ़ॉल्ट इमेज टैग को माइग्रेट करने के लिए `pondok-ai update --upgrade-images` चलाएं। कस्टम इमेज वैल्यू संरक्षित हैं।
 
 ---
 
@@ -158,14 +158,14 @@ npx local-ai-stack model install llama3.2:3b
 
 API गेटवे ड्रॉप-इन OpenAI REST एंडपॉइंट प्रदान करता है:
 
-`/v1/*` एंडपॉइंट को कॉल करने से पहले `LOCAL_AI_API_KEY` को जेनरेट की गई `API_SECRET_KEY` पर सेट करें।
+`/v1/*` एंडपॉइंट को कॉल करने से पहले `PONDOK_AI_API_KEY` को जेनरेट की गई `API_SECRET_KEY` पर सेट करें।
 
 गेटवे डिफ़ॉल्ट रूप से स्रोत IP प्रति प्रमाणित `/v1/*` अनुरोधों को प्रति मिनट 120 अनुरोधों तक सीमित करता है। यदि आपके स्थानीय क्लाइंट को विभिन्न सीमाओं की आवश्यकता है तो `.env` में `RATE_LIMIT_MAX_REQUESTS` और `RATE_LIMIT_WINDOW_MS` को कॉन्फ़िगर करें।
 
 ```bash
 curl http://localhost:8000/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $LOCAL_AI_API_KEY" \
+  -H "Authorization: Bearer $PONDOK_AI_API_KEY" \
   -d '{
     "model": "llama3.2:3b",
     "messages": [
@@ -178,9 +178,9 @@ curl http://localhost:8000/v1/chat/completions \
 ```typescript
 import OpenAI from 'openai';
 
-const apiKey = process.env.LOCAL_AI_API_KEY;
+const apiKey = process.env.PONDOK_AI_API_KEY;
 if (!apiKey) {
-  throw new Error('LOCAL_AI_API_KEY को अपनी जेनरेट की गई API_SECRET_KEY पर सेट करें।');
+  throw new Error('PONDOK_AI_API_KEY को अपनी जेनरेट की गई API_SECRET_KEY पर सेट करें।');
 }
 
 const openai = new OpenAI({
@@ -221,4 +221,4 @@ console.log(completion.choices[0].message.content);
 
 ## लाइसेंस
 
-[MIT](./LICENSE) © 2026 local-ai-stack योगदानकर्ता
+[MIT](./LICENSE) © 2026 pondok-ai योगदानकर्ता

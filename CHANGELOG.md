@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- BREAKING: renamed from local-ai-stack to pondok-ai (npm package, CLI command, config directory .pondok-ai, container names pondok-ai-*). Existing 0.2.x stacks are not migrated automatically. The old package name is deprecated.
+
 ## [0.2.4] - 2026-10-11
 
 ### Fixed

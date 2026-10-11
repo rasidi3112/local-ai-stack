@@ -1,6 +1,6 @@
-# local-ai-stack — API Gateway Reference
+# pondok-ai — API Gateway Reference
 
-The API Gateway runs at `http://localhost:8000` (by default) and provides an OpenAI-compatible REST API interface. Any software that supports custom `OPENAI_BASE_URL` (such as LangChain, LlamaIndex, LiteLLM, Continue.dev, or the official OpenAI SDKs) can interact seamlessly with your local AI stack.
+The API Gateway runs at `http://localhost:8000` (by default) and provides an OpenAI-compatible REST API interface. Any software that supports custom `OPENAI_BASE_URL` (such as LangChain, LlamaIndex, LiteLLM, Continue.dev, or the official OpenAI SDKs) can interact seamlessly with your pondok-ai stack.
 
 ---
 
@@ -12,12 +12,12 @@ http://localhost:8000
 ---
 
 ## Authentication
-All `/v1/*` endpoints require the `API_SECRET_KEY` generated during `local-ai-stack init`:
+All `/v1/*` endpoints require the `API_SECRET_KEY` generated during `pondok-ai init`:
 ```http
 Authorization: Bearer <your-secret-key>
 ```
 
-Set an application-specific environment variable such as `LOCAL_AI_API_KEY` to that value instead of hard-coding it. `/health` remains unauthenticated for Docker health checks.
+Set an application-specific environment variable such as `PONDOK_AI_API_KEY` to that value instead of hard-coding it. `/health` remains unauthenticated for Docker health checks.
 
 The gateway accepts `Host` headers for `localhost`, `127.0.0.1`, and the internal Docker service name `api` only. Browser access is disabled by default; set `CORS_ORIGINS` to a comma-separated allowlist of complete origins when it is needed.
 

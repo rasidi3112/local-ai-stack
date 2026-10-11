@@ -1,4 +1,6 @@
-# local-ai-stack
+# pondok-ai
+
+Sebelumnya bernama local-ai-stack. Pondok berarti tempat bernaung sederhana.
 
 [English](README.md) · **Bahasa Indonesia** · [한국어](README_ko.md) · [العربية](README_ar.md) · [Español](README_es.md) · [中文](README_zh.md) · [Français](README_fr.md) · [日本語](README_ja.md) · [Deutsch](README_de.md) · [Português](README_pt.md) · [Русский](README_ru.md) · [हिन्दी](README_hi.md) · [Türkçe](README_tr.md) · [Italiano](README_it.md) · [Tiếng Việt](README_vi.md)
 
@@ -18,15 +20,15 @@ Terjemahan dibuat oleh mesin dan mungkin tertinggal dari README bahasa Inggris.
 
 ## Overview
 
-`local-ai-stack` adalah toolkit CLI dan orkestrasi container yang mudah digunakan, dirancang untuk menjalankan lingkungan AI pribadi secara langsung di komputer lokal Anda dengan konfigurasi seminimal mungkin.
+`pondok-ai` adalah toolkit CLI dan orkestrasi container yang mudah digunakan, dirancang untuk menjalankan lingkungan AI pribadi secara langsung di komputer lokal Anda dengan konfigurasi seminimal mungkin.
 
-Didukung oleh **Docker Compose v2**, `local-ai-stack` menyediakan LLM lokal, antarmuka chat, pencarian vektor, penyimpanan database, dan API Gateway yang kompatibel dengan OpenAI hanya dalam hitungan detik.
+Didukung oleh **Docker Compose v2**, `pondok-ai` menyediakan LLM lokal, antarmuka chat, pencarian vektor, penyimpanan database, dan API Gateway yang kompatibel dengan OpenAI hanya dalam hitungan detik.
 
 Prompt, percakapan, dan embedding diproses di komputer Anda. Namun, pengunduhan image container dan bobot model tetap memerlukan koneksi internet.
 
 ```bash
-npx local-ai-stack init
-npx local-ai-stack up
+npx pondok-ai init
+npx pondok-ai up
 ```
 
 ---
@@ -87,16 +89,16 @@ npx local-ai-stack up
 
 ```bash
 # Wizard konfigurasi interaktif dengan deteksi perangkat keras otomatis
-npx local-ai-stack init
+npx pondok-ai init
 
 # Atau jalankan tanpa interaksi dengan memilih preset
-npx local-ai-stack init --preset standard --yes
+npx pondok-ai init --preset standard --yes
 ```
 
 #### 2. Jalankan layanan dengan pemeriksaan kesehatan otomatis
 
 ```bash
-npx local-ai-stack up
+npx pondok-ai up
 ```
 
 Setelah layanan berjalan, akses stack Anda melalui alamat berikut:
@@ -110,10 +112,10 @@ Setelah layanan berjalan, akses stack Anda melalui alamat berikut:
 
 ```bash
 # Dapatkan rekomendasi model berdasarkan RAM dan VRAM perangkat Anda
-npx local-ai-stack model recommend
+npx pondok-ai model recommend
 
 # Instal model dengan pemeriksaan awal penggunaan memori dan ruang disk
-npx local-ai-stack model install llama3.2:3b
+npx pondok-ai model install llama3.2:3b
 ```
 
 ### Skrip penginstal (eksperimental, belum dicakup oleh CI)
@@ -121,13 +123,13 @@ npx local-ai-stack model install llama3.2:3b
 #### macOS & Linux
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/rasidi3112/pondok-ai/main/scripts/install.sh | bash
 ```
 
 #### Windows (PowerShell)
 
 ```powershell
-iwr -useb https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.ps1 | iex
+iwr -useb https://raw.githubusercontent.com/rasidi3112/pondok-ai/main/scripts/install.ps1 | iex
 ```
 
 ---
@@ -136,29 +138,29 @@ iwr -useb https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scrip
 
 | Perintah | Deskripsi |
 |---|---|
-| `local-ai-stack init` | Menjalankan wizard konfigurasi interaktif dengan deteksi perangkat keras |
-| `local-ai-stack up` | Memvalidasi konfigurasi Compose, menjalankan container, dan menunggu pemeriksaan kesehatan |
-| `local-ai-stack down` | Menghentikan dan menghapus container stack |
-| `local-ai-stack start` | Menjalankan kembali container yang sudah ada dan sedang berhenti |
-| `local-ai-stack stop` | Menghentikan container yang sedang berjalan |
-| `local-ai-stack restart` | Memulai ulang container stack |
-| `local-ai-stack status` | Menampilkan status kesehatan container dan URL layanan |
-| `local-ai-stack logs [service]` | Menampilkan log layanan (`-f` untuk mengikuti log secara langsung) |
-| `local-ai-stack doctor` | Mendiagnosis Docker, RAM, GPU/VRAM, port, dan memberikan rekomendasi model |
-| `local-ai-stack update` | Mengunduh ulang image dengan versi yang telah ditentukan, disertai pencadangan otomatis dan pemeriksaan kesehatan |
-| `local-ai-stack backup` | Mencadangkan konfigurasi dan volume data dengan pemeriksaan integritas SHA-256. Cadangan tidak dienkripsi |
-| `local-ai-stack restore <path>` | Memulihkan cadangan setelah memeriksa integritas SHA-256. Cadangan tidak dienkripsi |
-| `local-ai-stack reset` | Mengatur ulang stack. Volume tetap dipertahankan kecuali opsi `--delete-data` digunakan |
-| `local-ai-stack config` | Memeriksa atau mengedit konfigurasi aktif |
-| `local-ai-stack model list` | Menampilkan daftar model yang telah diunduh |
-| `local-ai-stack model recommend` | Memberikan rekomendasi model berdasarkan RAM, VRAM, dan ruang disk |
-| `local-ai-stack model install <name>` | Mengunduh model baru dengan pemeriksaan awal ketersediaan sumber daya |
-| `local-ai-stack model remove <name>` | Menghapus model yang telah terpasang |
-| `local-ai-stack model status` | Memeriksa kebutuhan sumber daya setiap model |
+| `pondok-ai init` | Menjalankan wizard konfigurasi interaktif dengan deteksi perangkat keras |
+| `pondok-ai up` | Memvalidasi konfigurasi Compose, menjalankan container, dan menunggu pemeriksaan kesehatan |
+| `pondok-ai down` | Menghentikan dan menghapus container stack |
+| `pondok-ai start` | Menjalankan kembali container yang sudah ada dan sedang berhenti |
+| `pondok-ai stop` | Menghentikan container yang sedang berjalan |
+| `pondok-ai restart` | Memulai ulang container stack |
+| `pondok-ai status` | Menampilkan status kesehatan container dan URL layanan |
+| `pondok-ai logs [service]` | Menampilkan log layanan (`-f` untuk mengikuti log secara langsung) |
+| `pondok-ai doctor` | Mendiagnosis Docker, RAM, GPU/VRAM, port, dan memberikan rekomendasi model |
+| `pondok-ai update` | Mengunduh ulang image dengan versi yang telah ditentukan, disertai pencadangan otomatis dan pemeriksaan kesehatan |
+| `pondok-ai backup` | Mencadangkan konfigurasi dan volume data dengan pemeriksaan integritas SHA-256. Cadangan tidak dienkripsi |
+| `pondok-ai restore <path>` | Memulihkan cadangan setelah memeriksa integritas SHA-256. Cadangan tidak dienkripsi |
+| `pondok-ai reset` | Mengatur ulang stack. Volume tetap dipertahankan kecuali opsi `--delete-data` digunakan |
+| `pondok-ai config` | Memeriksa atau mengedit konfigurasi aktif |
+| `pondok-ai model list` | Menampilkan daftar model yang telah diunduh |
+| `pondok-ai model recommend` | Memberikan rekomendasi model berdasarkan RAM, VRAM, dan ruang disk |
+| `pondok-ai model install <name>` | Mengunduh model baru dengan pemeriksaan awal ketersediaan sumber daya |
+| `pondok-ai model remove <name>` | Menghapus model yang telah terpasang |
+| `pondok-ai model status` | Memeriksa kebutuhan sumber daya setiap model |
 
-Image container menggunakan versi yang telah ditentukan secara eksplisit. Perintah `local-ai-stack update` memperbarui image sesuai versi yang dikonfigurasi, bukan secara otomatis memilih versi rilis yang lebih baru.
+Image container menggunakan versi yang telah ditentukan secara eksplisit. Perintah `pondok-ai update` memperbarui image sesuai versi yang dikonfigurasi, bukan secara otomatis memilih versi rilis yang lebih baru.
 
-Setelah memperbarui CLI ke versi yang lebih baru, jalankan `local-ai-stack update --upgrade-images` untuk memigrasikan hanya tag image default lama milik CLI. Nilai image khusus yang telah dikonfigurasi akan tetap dipertahankan.
+Setelah memperbarui CLI ke versi yang lebih baru, jalankan `pondok-ai update --upgrade-images` untuk memigrasikan hanya tag image default lama milik CLI. Nilai image khusus yang telah dikonfigurasi akan tetap dipertahankan.
 
 ---
 
@@ -166,7 +168,7 @@ Setelah memperbarui CLI ke versi yang lebih baru, jalankan `local-ai-stack updat
 
 API Gateway menyediakan endpoint REST yang kompatibel dengan OpenAI dan dapat digunakan sebagai pengganti langsung dalam integrasi yang sudah ada.
 
-Sebelum memanggil endpoint `/v1/`, atur `LOCAL_AI_API_KEY` menggunakan nilai `API_SECRET_KEY` yang dihasilkan oleh sistem.
+Sebelum memanggil endpoint `/v1/`, atur `PONDOK_AI_API_KEY` menggunakan nilai `API_SECRET_KEY` yang dihasilkan oleh sistem.
 
 Secara default, gateway membatasi permintaan terautentikasi ke endpoint `/v1/` sebanyak 120 permintaan per menit untuk setiap klien (IP sumber dan API key).
 
@@ -177,7 +179,7 @@ Jika diperlukan, Anda dapat mengubah batas tersebut melalui variabel `RATE_LIMIT
 ```bash
 curl http://localhost:8000/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $LOCAL_AI_API_KEY" \
+  -H "Authorization: Bearer $PONDOK_AI_API_KEY" \
   -d '{
     "model": "llama3.2:3b",
     "messages": [
@@ -191,9 +193,9 @@ curl http://localhost:8000/v1/chat/completions \
 ```typescript
 import OpenAI from 'openai';
 
-const apiKey = process.env.LOCAL_AI_API_KEY;
+const apiKey = process.env.PONDOK_AI_API_KEY;
 if (!apiKey) {
-  throw new Error('Set LOCAL_AI_API_KEY to your generated API_SECRET_KEY.');
+  throw new Error('Set PONDOK_AI_API_KEY to your generated API_SECRET_KEY.');
 }
 
 const openai = new OpenAI({
@@ -226,7 +228,7 @@ Setiap pull request menjalankan pengujian menyeluruh (end-to-end) di GitHub Acti
 
 ## Keterbatasan yang diketahui
 
-- Belum diuji pada host macOS atau Windows nyata. Di Apple Silicon, container Docker tidak dapat menggunakan GPU dan local-ai-stack menjalankan Ollama di dalam Docker, sehingga inferensi di sana hanya menggunakan CPU.
+- Belum diuji pada host macOS atau Windows nyata. Di Apple Silicon, container Docker tidak dapat menggunakan GPU dan pondok-ai menjalankan Ollama di dalam Docker, sehingga inferensi di sana hanya menggunakan CPU.
 - Akselerasi GPU tidak dicakup oleh CI.
 - Respons streaming dan embeddings belum dicakup oleh CI.
 - Image-nya berukuran besar (beberapa GB). Siapkan ruang disk kosong yang cukup; workspace cloud 32 GB dengan 19 GB kosong pernah kehabisan ruang saat mengekstrak image Ollama.
@@ -249,4 +251,4 @@ Kontribusi sangat terbuka! Silakan baca [`CONTRIBUTING.md`](./CONTRIBUTING.md) u
 
 ## Lisensi
 
-[MIT](./LICENSE) © 2026 kontributor local-ai-stack
+[MIT](./LICENSE) © 2026 kontributor pondok-ai

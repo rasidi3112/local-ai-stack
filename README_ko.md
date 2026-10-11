@@ -1,4 +1,4 @@
-# local-ai-stack
+# pondok-ai
 
 [English](README.md) · [Bahasa Indonesia](README_id.md) · **한국어** · [العربية](README_ar.md) · [Español](README_es.md) · [中文](README_zh.md) · [Français](README_fr.md) · [日本語](README_ja.md) · [Deutsch](README_de.md) · [Português](README_pt.md) · [Русский](README_ru.md) · [हिन्दी](README_hi.md) · [Türkçe](README_tr.md) · [Italiano](README_it.md) · [Tiếng Việt](README_vi.md)
 
@@ -16,13 +16,13 @@
 
 ## Overview
 
-`local-ai-stack`은 개발자가 로컬 워크스테이션에서 완전한 프라이빗 AI 환경을 간편하게 실행할 수 있도록 지원하는 CLI 및 컨테이너 오케스트레이션 도구입니다.
+`pondok-ai`은 개발자가 로컬 워크스테이션에서 완전한 프라이빗 AI 환경을 간편하게 실행할 수 있도록 지원하는 CLI 및 컨테이너 오케스트레이션 도구입니다.
 
-**Docker Compose v2**를 기반으로 `local-ai-stack`은 로컬 LLM, 채팅 UI, 벡터 검색, 데이터베이스 영속성 및 OpenAI 호환 API 게이트웨이를 몇 초 만에 실행합니다. 프롬프트, 채팅 및 임베딩 처리는 로컬 머신에서 수행되지만, 컨테이너 이미지와 모델 가중치를 다운로드하려면 인터넷 연결이 필요합니다.
+**Docker Compose v2**를 기반으로 `pondok-ai`은 로컬 LLM, 채팅 UI, 벡터 검색, 데이터베이스 영속성 및 OpenAI 호환 API 게이트웨이를 몇 초 만에 실행합니다. 프롬프트, 채팅 및 임베딩 처리는 로컬 머신에서 수행되지만, 컨테이너 이미지와 모델 가중치를 다운로드하려면 인터넷 연결이 필요합니다.
 
 ```bash
-npx local-ai-stack init
-npx local-ai-stack up
+npx pondok-ai init
+npx pondok-ai up
 ```
 
 ---
@@ -80,13 +80,13 @@ npx local-ai-stack up
 #### macOS 및 Linux
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/rasidi3112/pondok-ai/main/scripts/install.sh | bash
 ```
 
 #### Windows (PowerShell)
 
 ```powershell
-iwr -useb https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.ps1 | iex
+iwr -useb https://raw.githubusercontent.com/rasidi3112/pondok-ai/main/scripts/install.ps1 | iex
 ```
 
 ### npx를 사용한 수동 빠른 시작
@@ -97,16 +97,16 @@ iwr -useb https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scrip
 
 ```bash
 # 하드웨어 자동 감지를 지원하는 대화형 설정 마법사
-npx local-ai-stack init
+npx pondok-ai init
 
 # 또는 원하는 프리셋을 지정하여 비대화형으로 초기화
-npx local-ai-stack init --preset standard --yes
+npx pondok-ai init --preset standard --yes
 ```
 
 #### 2. 상태 확인을 자동으로 수행하며 서비스 시작
 
 ```bash
-npx local-ai-stack up
+npx pondok-ai up
 ```
 
 실행 후 다음 주소에서 각 서비스에 접속할 수 있습니다.
@@ -120,10 +120,10 @@ npx local-ai-stack up
 
 ```bash
 # RAM 및 VRAM을 기반으로 하드웨어에 적합한 모델 추천 받기
-npx local-ai-stack model recommend
+npx pondok-ai model recommend
 
 # 메모리 및 디스크 사전 점검 후 모델 설치
-npx local-ai-stack model install llama3.2:3b
+npx pondok-ai model install llama3.2:3b
 ```
 
 ---
@@ -132,27 +132,27 @@ npx local-ai-stack model install llama3.2:3b
 
 | 명령어 | 설명 |
 |---|---|
-| `local-ai-stack init` | 하드웨어 감지 기능이 포함된 대화형 설정 마법사 실행 |
-| `local-ai-stack up` | Compose 설정을 검증하고 컨테이너를 실행한 후 상태 확인이 완료될 때까지 대기 |
-| `local-ai-stack down` | 스택 컨테이너를 중지하고 제거 |
-| `local-ai-stack start` | 기존에 중지된 컨테이너 시작 |
-| `local-ai-stack stop` | 실행 중인 컨테이너 중지 |
-| `local-ai-stack restart` | 스택 컨테이너 재시작 |
-| `local-ai-stack status` | 컨테이너 상태 및 접속 URL 표시 |
-| `local-ai-stack logs [service]` | 로그 확인 (`-f` 옵션으로 실시간 로그 출력) |
-| `local-ai-stack doctor` | Docker, RAM, GPU/VRAM, 포트 및 모델 추천 관련 문제 진단 |
-| `local-ai-stack update` | 자동 백업 및 상태 확인을 수행하며 설정된 이미지 버전을 다시 다운로드 |
-| `local-ai-stack backup` | SHA-256 무결성 검사를 포함하여 설정과 데이터 볼륨 백업 (암호화되지 않음) |
-| `local-ai-stack restore <path>` | SHA-256 무결성 검사를 통해 백업 복원 (암호화되지 않음) |
-| `local-ai-stack reset` | 스택 초기화 (`--delete-data`를 지정하지 않으면 볼륨 데이터 유지) |
-| `local-ai-stack config` | 현재 활성 설정 확인 또는 편집 |
-| `local-ai-stack model list` | 다운로드된 모델 목록 표시 |
-| `local-ai-stack model recommend` | RAM, VRAM 및 디스크 용량에 맞는 모델 추천 |
-| `local-ai-stack model install <name>` | 리소스 사전 점검 후 새 모델 다운로드 |
-| `local-ai-stack model remove <name>` | 설치된 모델 삭제 |
-| `local-ai-stack model status` | 모델별 리소스 사용량 확인 |
+| `pondok-ai init` | 하드웨어 감지 기능이 포함된 대화형 설정 마법사 실행 |
+| `pondok-ai up` | Compose 설정을 검증하고 컨테이너를 실행한 후 상태 확인이 완료될 때까지 대기 |
+| `pondok-ai down` | 스택 컨테이너를 중지하고 제거 |
+| `pondok-ai start` | 기존에 중지된 컨테이너 시작 |
+| `pondok-ai stop` | 실행 중인 컨테이너 중지 |
+| `pondok-ai restart` | 스택 컨테이너 재시작 |
+| `pondok-ai status` | 컨테이너 상태 및 접속 URL 표시 |
+| `pondok-ai logs [service]` | 로그 확인 (`-f` 옵션으로 실시간 로그 출력) |
+| `pondok-ai doctor` | Docker, RAM, GPU/VRAM, 포트 및 모델 추천 관련 문제 진단 |
+| `pondok-ai update` | 자동 백업 및 상태 확인을 수행하며 설정된 이미지 버전을 다시 다운로드 |
+| `pondok-ai backup` | SHA-256 무결성 검사를 포함하여 설정과 데이터 볼륨 백업 (암호화되지 않음) |
+| `pondok-ai restore <path>` | SHA-256 무결성 검사를 통해 백업 복원 (암호화되지 않음) |
+| `pondok-ai reset` | 스택 초기화 (`--delete-data`를 지정하지 않으면 볼륨 데이터 유지) |
+| `pondok-ai config` | 현재 활성 설정 확인 또는 편집 |
+| `pondok-ai model list` | 다운로드된 모델 목록 표시 |
+| `pondok-ai model recommend` | RAM, VRAM 및 디스크 용량에 맞는 모델 추천 |
+| `pondok-ai model install <name>` | 리소스 사전 점검 후 새 모델 다운로드 |
+| `pondok-ai model remove <name>` | 설치된 모델 삭제 |
+| `pondok-ai model status` | 모델별 리소스 사용량 확인 |
 
-이미지는 명시적인 버전으로 고정되어 있습니다. `local-ai-stack update`는 설정된 버전을 새로 다운로드할 뿐, 자동으로 최신 릴리스를 선택하지 않습니다. 최신 CLI를 설치한 후 `local-ai-stack update --upgrade-images`를 실행하면 CLI의 기존 기본 이미지 태그만 새 버전으로 마이그레이션합니다. 사용자 지정 이미지 설정은 그대로 유지됩니다.
+이미지는 명시적인 버전으로 고정되어 있습니다. `pondok-ai update`는 설정된 버전을 새로 다운로드할 뿐, 자동으로 최신 릴리스를 선택하지 않습니다. 최신 CLI를 설치한 후 `pondok-ai update --upgrade-images`를 실행하면 CLI의 기존 기본 이미지 태그만 새 버전으로 마이그레이션합니다. 사용자 지정 이미지 설정은 그대로 유지됩니다.
 
 ---
 
@@ -160,14 +160,14 @@ npx local-ai-stack model install llama3.2:3b
 
 API Gateway는 OpenAI REST API와 호환되는 엔드포인트를 제공합니다.
 
-`/v1/*` 엔드포인트를 호출하기 전에 생성된 `API_SECRET_KEY` 값을 `LOCAL_AI_API_KEY`에 설정하세요.
+`/v1/*` 엔드포인트를 호출하기 전에 생성된 `API_SECRET_KEY` 값을 `PONDOK_AI_API_KEY`에 설정하세요.
 
 게이트웨이는 기본적으로 소스 IP별 인증된 `/v1/*` 요청을 분당 120회로 제한합니다. 로컬 클라이언트에 다른 제한이 필요한 경우 `.env` 파일에서 `RATE_LIMIT_MAX_REQUESTS` 및 `RATE_LIMIT_WINDOW_MS`를 설정할 수 있습니다.
 
 ```bash
 curl http://localhost:8000/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $LOCAL_AI_API_KEY" \
+  -H "Authorization: Bearer $PONDOK_AI_API_KEY" \
   -d '{
     "model": "llama3.2:3b",
     "messages": [
@@ -181,10 +181,10 @@ curl http://localhost:8000/v1/chat/completions \
 ```typescript
 import OpenAI from 'openai';
 
-const apiKey = process.env.LOCAL_AI_API_KEY;
+const apiKey = process.env.PONDOK_AI_API_KEY;
 
 if (!apiKey) {
-  throw new Error('LOCAL_AI_API_KEY에 생성된 API_SECRET_KEY 값을 설정하세요.');
+  throw new Error('PONDOK_AI_API_KEY에 생성된 API_SECRET_KEY 값을 설정하세요.');
 }
 
 const openai = new OpenAI({
@@ -227,4 +227,4 @@ console.log(completion.choices[0].message.content);
 
 ## License
 
-[MIT](./LICENSE) © 2026 local-ai-stack 기여자
+[MIT](./LICENSE) © 2026 pondok-ai 기여자

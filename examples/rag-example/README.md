@@ -9,17 +9,17 @@ This example demonstrates a complete **Retrieval-Augmented Generation (RAG)** pi
 
 ## Prerequisites
 
-1. Start `local-ai-stack` with the `standard` preset:
+1. Start `pondok-ai` with the `standard` preset:
    ```bash
-   npx local-ai-stack init --preset standard --yes
-   npx local-ai-stack up
+   npx pondok-ai init --preset standard --yes
+   npx pondok-ai up
    ```
 2. Pull required models:
    ```bash
-   npx local-ai-stack model install llama3.2:3b
-   npx local-ai-stack model install nomic-embed-text
+   npx pondok-ai model install llama3.2:3b
+   npx pondok-ai model install nomic-embed-text
    ```
-3. Set `LOCAL_AI_API_KEY` to the generated `API_SECRET_KEY` for the stack before running the scripts.
+3. Set `PONDOK_AI_API_KEY` to the generated `API_SECRET_KEY` for the stack before running the scripts.
 
 ---
 
@@ -30,7 +30,7 @@ This example demonstrates a complete **Retrieval-Augmented Generation (RAG)** pi
 npm install
 
 # 2. Provide the gateway credential
-export LOCAL_AI_API_KEY='<your API_SECRET_KEY>'
+export PONDOK_AI_API_KEY='<your API_SECRET_KEY>'
 
 # 3. Ingest sample documents into Qdrant
 npm run ingest

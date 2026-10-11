@@ -1,4 +1,4 @@
-# local-ai-stack
+# pondok-ai
 
 [English](README.md) · [Bahasa Indonesia](README_id.md) · [한국어](README_ko.md) · [العربية](README_ar.md) · [Español](README_es.md) · [中文](README_zh.md) · [Français](README_fr.md) · [日本語](README_ja.md) · **Deutsch** · [Português](README_pt.md) · [Русский](README_ru.md) · [हिन्दी](README_hi.md) · [Türkçe](README_tr.md) · [Italiano](README_it.md) · [Tiếng Việt](README_vi.md)
 
@@ -20,13 +20,13 @@
 
 ## Überblick
 
-`local-ai-stack` ist ein entwicklerfreundliches, reibungsloses CLI- und Container-Orchestrierungs-Toolkit, das eine vollständige, private KI-Umgebung direkt auf Ihrer lokalen Workstation startet.
+`pondok-ai` ist ein entwicklerfreundliches, reibungsloses CLI- und Container-Orchestrierungs-Toolkit, das eine vollständige, private KI-Umgebung direkt auf Ihrer lokalen Workstation startet.
 
-Angetrieben von **Docker Compose v2** bietet Ihnen `local-ai-stack` lokale LLMs, Chat-UI, Vektorsuche, Datenbankpersistenz und ein OpenAI-kompatibles API-Gateway in Sekunden. Prompts, Chats und Embeddings werden auf Ihrer Maschine verarbeitet; das Herunterladen von Container-Images und Modellgewichten erfordert eine Internetverbindung.
+Angetrieben von **Docker Compose v2** bietet Ihnen `pondok-ai` lokale LLMs, Chat-UI, Vektorsuche, Datenbankpersistenz und ein OpenAI-kompatibles API-Gateway in Sekunden. Prompts, Chats und Embeddings werden auf Ihrer Maschine verarbeitet; das Herunterladen von Container-Images und Modellgewichten erfordert eine Internetverbindung.
 
 ```bash
-npx local-ai-stack init
-npx local-ai-stack up
+npx pondok-ai init
+npx pondok-ai up
 ```
 
 ---
@@ -83,12 +83,12 @@ npx local-ai-stack up
 
 #### macOS und Linux
 ```bash
-curl -fsSL https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/rasidi3112/pondok-ai/main/scripts/install.sh | bash
 ```
 
 #### Windows (PowerShell)
 ```powershell
-iwr -useb https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.ps1 | iex
+iwr -useb https://raw.githubusercontent.com/rasidi3112/pondok-ai/main/scripts/install.ps1 | iex
 ```
 
 ### Manueller Schnellstart über npx
@@ -98,15 +98,15 @@ Voraussetzungen: Node.js 22 oder höher, Docker und Docker Compose v2.
 #### 1. Stack initialisieren
 ```bash
 # Interaktiver Setup-Assistent mit automatischer Hardware-Erkennung
-npx local-ai-stack init
+npx pondok-ai init
 
 # Oder nicht-interaktiv mit einer gewählten Voreinstellung
-npx local-ai-stack init --preset standard --yes
+npx pondok-ai init --preset standard --yes
 ```
 
 #### 2. Dienste mit automatischen Gesundheitsprüfungen starten
 ```bash
-npx local-ai-stack up
+npx pondok-ai up
 ```
 
 Nach dem Start greifen Sie auf Ihren Stack zu:
@@ -118,10 +118,10 @@ Nach dem Start greifen Sie auf Ihren Stack zu:
 #### 3. Intelligente Hardware-Erkennung und Modellempfehlungen
 ```bash
 # Erhalten Sie intelligente hardwarebasierte Empfehlungen basierend auf Ihrem RAM/VRAM
-npx local-ai-stack model recommend
+npx pondok-ai model recommend
 
 # Modell mit Vorab-Speicher- und Festplatten-Sicherheitsprüfung installieren
-npx local-ai-stack model install llama3.2:3b
+npx pondok-ai model install llama3.2:3b
 ```
 
 ---
@@ -130,27 +130,27 @@ npx local-ai-stack model install llama3.2:3b
 
 | Befehl | Beschreibung |
 |---|---|
-| `local-ai-stack init` | Interaktiven Konfigurations-Assistenten mit Hardware-Erkennung ausführen |
-| `local-ai-stack up` | Compose-Konfiguration validieren, Container starten und auf Gesundheitsprüfungen warten |
-| `local-ai-stack down` | Stack-Container stoppen und entfernen |
-| `local-ai-stack start` | Vorhandene gestoppte Container starten |
-| `local-ai-stack stop` | Laufende Container stoppen |
-| `local-ai-stack restart` | Stack-Container neu starten |
-| `local-ai-stack status` | Container-Gesundheit und URLs anzeigen |
-| `local-ai-stack logs [Dienst]` | Protokolle anzeigen (`-f` zum Streamen) |
-| `local-ai-stack doctor` | Docker, RAM, GPU/VRAM, Ports und Modellempfehlungen diagnostizieren |
-| `local-ai-stack update` | Konfigurierte gepinnte Images mit automatischem Backup und Gesundheitsprüfungen erneut laden |
-| `local-ai-stack backup` | Konfigurationen und Datenvolumes mit SHA-256-Integritätsprüfungen sichern (nicht verschlüsselt) |
-| `local-ai-stack restore <Pfad>` | Aus einem SHA-256-integritätsgeprüften Backup wiederherstellen (nicht verschlüsselt) |
-| `local-ai-stack reset` | Stack zurücksetzen (behält Volumes, es sei denn `--delete-data` ist angegeben) |
-| `local-ai-stack config` | Aktive Konfiguration inspizieren oder bearbeiten |
-| `local-ai-stack model list` | Heruntergeladene Modelle auflisten |
-| `local-ai-stack model recommend` | Hardwareorientierte Modellempfehlungen (RAM, VRAM, Festplatte) |
-| `local-ai-stack model install <Name>` | Neues Modell mit Vorab-Ressourcen-Sicherheitsprüfungen laden |
-| `local-ai-stack model remove <Name>` | Installiertes Modell löschen |
-| `local-ai-stack model status` | Modell-Ressourcen-Fußabdrücke inspizieren |
+| `pondok-ai init` | Interaktiven Konfigurations-Assistenten mit Hardware-Erkennung ausführen |
+| `pondok-ai up` | Compose-Konfiguration validieren, Container starten und auf Gesundheitsprüfungen warten |
+| `pondok-ai down` | Stack-Container stoppen und entfernen |
+| `pondok-ai start` | Vorhandene gestoppte Container starten |
+| `pondok-ai stop` | Laufende Container stoppen |
+| `pondok-ai restart` | Stack-Container neu starten |
+| `pondok-ai status` | Container-Gesundheit und URLs anzeigen |
+| `pondok-ai logs [Dienst]` | Protokolle anzeigen (`-f` zum Streamen) |
+| `pondok-ai doctor` | Docker, RAM, GPU/VRAM, Ports und Modellempfehlungen diagnostizieren |
+| `pondok-ai update` | Konfigurierte gepinnte Images mit automatischem Backup und Gesundheitsprüfungen erneut laden |
+| `pondok-ai backup` | Konfigurationen und Datenvolumes mit SHA-256-Integritätsprüfungen sichern (nicht verschlüsselt) |
+| `pondok-ai restore <Pfad>` | Aus einem SHA-256-integritätsgeprüften Backup wiederherstellen (nicht verschlüsselt) |
+| `pondok-ai reset` | Stack zurücksetzen (behält Volumes, es sei denn `--delete-data` ist angegeben) |
+| `pondok-ai config` | Aktive Konfiguration inspizieren oder bearbeiten |
+| `pondok-ai model list` | Heruntergeladene Modelle auflisten |
+| `pondok-ai model recommend` | Hardwareorientierte Modellempfehlungen (RAM, VRAM, Festplatte) |
+| `pondok-ai model install <Name>` | Neues Modell mit Vorab-Ressourcen-Sicherheitsprüfungen laden |
+| `pondok-ai model remove <Name>` | Installiertes Modell löschen |
+| `pondok-ai model status` | Modell-Ressourcen-Fußabdrücke inspizieren |
 
-Images sind auf explizite Versionen gepinnt. `local-ai-stack update` aktualisiert die konfigurierten Versionen; es wählt keine neueren Releases aus. Nach der Installation einer neueren CLI führen Sie `local-ai-stack update --upgrade-images` aus, um nur die Legacy-Standard-Image-Tags der CLI zu migrieren. Benutzerdefinierte Image-Werte bleiben erhalten.
+Images sind auf explizite Versionen gepinnt. `pondok-ai update` aktualisiert die konfigurierten Versionen; es wählt keine neueren Releases aus. Nach der Installation einer neueren CLI führen Sie `pondok-ai update --upgrade-images` aus, um nur die Legacy-Standard-Image-Tags der CLI zu migrieren. Benutzerdefinierte Image-Werte bleiben erhalten.
 
 ---
 
@@ -158,14 +158,14 @@ Images sind auf explizite Versionen gepinnt. `local-ai-stack update` aktualisier
 
 Das API-Gateway bietet Drop-in-OpenAI-REST-Endpunkte:
 
-Setzen Sie `LOCAL_AI_API_KEY` auf den generierten `API_SECRET_KEY`, bevor Sie einen `/v1/*`-Endpunkt aufrufen.
+Setzen Sie `PONDOK_AI_API_KEY` auf den generierten `API_SECRET_KEY`, bevor Sie einen `/v1/*`-Endpunkt aufrufen.
 
 Das Gateway begrenzt authentifizierte `/v1/*`-Anfragen pro Quell-IP standardmäßig auf 120 Anfragen pro Minute. Konfigurieren Sie `RATE_LIMIT_MAX_REQUESTS` und `RATE_LIMIT_WINDOW_MS` in `.env`, wenn Ihr lokaler Client andere Limits benötigt.
 
 ```bash
 curl http://localhost:8000/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $LOCAL_AI_API_KEY" \
+  -H "Authorization: Bearer $PONDOK_AI_API_KEY" \
   -d '{
     "model": "llama3.2:3b",
     "messages": [
@@ -178,9 +178,9 @@ curl http://localhost:8000/v1/chat/completions \
 ```typescript
 import OpenAI from 'openai';
 
-const apiKey = process.env.LOCAL_AI_API_KEY;
+const apiKey = process.env.PONDOK_AI_API_KEY;
 if (!apiKey) {
-  throw new Error('Setzen Sie LOCAL_AI_API_KEY auf Ihren generierten API_SECRET_KEY.');
+  throw new Error('Setzen Sie PONDOK_AI_API_KEY auf Ihren generierten API_SECRET_KEY.');
 }
 
 const openai = new OpenAI({
@@ -221,4 +221,4 @@ Beiträge sind willkommen! Schauen Sie sich [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 ## Lizenz
 
-[MIT](./LICENSE) © 2026 local-ai-stack-Mitwirkende
+[MIT](./LICENSE) © 2026 pondok-ai-Mitwirkende

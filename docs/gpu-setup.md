@@ -1,6 +1,6 @@
-# local-ai-stack — GPU Acceleration Setup Guide
+# pondok-ai — GPU Acceleration Setup Guide
 
-Accelerating local LLM inference with a GPU drastically reduces latency and boosts token generation throughput. `local-ai-stack` auto-detects your host GPU during initialization and configures Docker Compose accordingly.
+Accelerating local LLM inference with a GPU drastically reduces latency and boosts token generation throughput. `pondok-ai` auto-detects your host GPU during initialization and configures Docker Compose accordingly.
 
 ---
 
@@ -17,7 +17,7 @@ Docker Desktop on macOS runs containers inside a lightweight Linux hypervisor. C
    - For models under 7B (such as `llama3.2:3b` or `phi3:mini`), modern Apple Silicon CPUs generate 15–25 tokens/second even without GPU passthrough in Docker.
 2. **Native Host Ollama (Maximum Performance)**:
    - Run Ollama natively on macOS: `brew install ollama && ollama serve`
-   - In `local-ai-stack.json`, disable the Docker Ollama container (`"services": { "ollama": { "enabled": false } }`) and point Open WebUI & API Gateway to `http://host.docker.internal:11434`.
+   - In `pondok-ai.json`, disable the Docker Ollama container (`"services": { "ollama": { "enabled": false } }`) and point Open WebUI & API Gateway to `http://host.docker.internal:11434`.
 
 ---
 
@@ -51,8 +51,8 @@ sudo systemctl restart docker
 docker run --rm --gpus all nvidia/cuda:12.0.0-base-ubuntu22.04 nvidia-smi
 ```
 
-### Enabling in `local-ai-stack`:
-When NVIDIA GPU is detected during `local-ai-stack init`, the CLI prompts:
+### Enabling in `pondok-ai`:
+When NVIDIA GPU is detected during `pondok-ai init`, the CLI prompts:
 ```
 ? Enable GPU acceleration? Yes
 ```
@@ -73,6 +73,6 @@ deploy:
 
 Run the diagnostic doctor tool to inspect your environment:
 ```bash
-local-ai-stack doctor
+pondok-ai doctor
 ```
-If GPU acceleration fails or is unavailable, `local-ai-stack` gracefully falls back to CPU inference without crashing.
+If GPU acceleration fails or is unavailable, `pondok-ai` gracefully falls back to CPU inference without crashing.

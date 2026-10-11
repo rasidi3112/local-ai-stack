@@ -1,6 +1,6 @@
-# Contributing to local-ai-stack
+# Contributing to pondok-ai
 
-Thank you for your interest in contributing to `local-ai-stack`! We welcome contributions from developers, AI enthusiasts, and DevOps engineers.
+Thank you for your interest in contributing to `pondok-ai`! We welcome contributions from developers, AI enthusiasts, and DevOps engineers.
 
 ---
 
@@ -19,8 +19,8 @@ Please review and adhere to our [Code of Conduct](./CODE_OF_CONDUCT.md) in all i
 ### Steps
 1. Fork and clone the repository:
    ```bash
-   git clone https://github.com/rasidi3112/local-ai-stack.git
-   cd local-ai-stack
+   git clone https://github.com/rasidi3112/pondok-ai.git
+   cd pondok-ai
    ```
 2. Install dependencies:
    ```bash

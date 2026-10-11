@@ -1,6 +1,6 @@
 ---
 name: Feature Request
-about: Suggest an idea or new service for local-ai-stack
+about: Suggest an idea or new service for pondok-ai
 title: '[FEAT] '
 labels: enhancement
 assignees: ''

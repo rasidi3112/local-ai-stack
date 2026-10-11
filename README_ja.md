@@ -1,4 +1,4 @@
-# local-ai-stack
+# pondok-ai
 
 [English](README.md) · [Bahasa Indonesia](README_id.md) · [한국어](README_ko.md) · [العربية](README_ar.md) · [Español](README_es.md) · [中文](README_zh.md) · [Français](README_fr.md) · **日本語** · [Deutsch](README_de.md) · [Português](README_pt.md) · [Русский](README_ru.md) · [हिन्दी](README_hi.md) · [Türkçe](README_tr.md) · [Italiano](README_it.md) · [Tiếng Việt](README_vi.md)
 
@@ -20,13 +20,13 @@
 
 ## 概要
 
-`local-ai-stack`は、開発者に優しい、摩擦ゼロのCLIおよびコンテナオーケストレーションツールキットで、ローカルワークステーション上で完全なプライベートAI環境を直接起動します。
+`pondok-ai`は、開発者に優しい、摩擦ゼロのCLIおよびコンテナオーケストレーションツールキットで、ローカルワークステーション上で完全なプライベートAI環境を直接起動します。
 
-**Docker Compose v2**を搭載し、`local-ai-stack`は数秒でローカルLLM、チャットUI、ベクトル検索、データベース永続化、OpenAI互換APIゲートウェイを提供します。プロンプト、チャット、埋め込みはマシン上で処理されます。コンテナイメージとモデルウェイトのプルにはインターネット接続が必要です。
+**Docker Compose v2**を搭載し、`pondok-ai`は数秒でローカルLLM、チャットUI、ベクトル検索、データベース永続化、OpenAI互換APIゲートウェイを提供します。プロンプト、チャット、埋め込みはマシン上で処理されます。コンテナイメージとモデルウェイトのプルにはインターネット接続が必要です。
 
 ```bash
-npx local-ai-stack init
-npx local-ai-stack up
+npx pondok-ai init
+npx pondok-ai up
 ```
 
 ---
@@ -83,12 +83,12 @@ npx local-ai-stack up
 
 #### macOSとLinux
 ```bash
-curl -fsSL https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/rasidi3112/pondok-ai/main/scripts/install.sh | bash
 ```
 
 #### Windows (PowerShell)
 ```powershell
-iwr -useb https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.ps1 | iex
+iwr -useb https://raw.githubusercontent.com/rasidi3112/pondok-ai/main/scripts/install.ps1 | iex
 ```
 
 ### npx経由の手動クイックスタート
@@ -98,15 +98,15 @@ iwr -useb https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scrip
 #### 1. スタックを初期化
 ```bash
 # ハードウェア自動検出付きインタラクティブセットアップウィザード
-npx local-ai-stack init
+npx pondok-ai init
 
 # または選択したプリセットで非インタラクティブ
-npx local-ai-stack init --preset standard --yes
+npx pondok-ai init --preset standard --yes
 ```
 
 #### 2. 自動ヘルスチェック付きでサービスを起動
 ```bash
-npx local-ai-stack up
+npx pondok-ai up
 ```
 
 実行中は、スタックにアクセスします:
@@ -118,10 +118,10 @@ npx local-ai-stack up
 #### 3. スマートハードウェア検出とモデル推奨
 ```bash
 # RAM/VRAMに基づくスマートなハードウェア対応推奨を取得
-npx local-ai-stack model recommend
+npx pondok-ai model recommend
 
 # プリフライトメモリとディスク安全チェック付きでモデルをインストール
-npx local-ai-stack model install llama3.2:3b
+npx pondok-ai model install llama3.2:3b
 ```
 
 ---
@@ -130,27 +130,27 @@ npx local-ai-stack model install llama3.2:3b
 
 | コマンド | 説明 |
 |---|---|
-| `local-ai-stack init` | ハードウェア検出付きインタラクティブ構成ウィザードを実行 |
-| `local-ai-stack up` | Compose構成を検証し、コンテナを起動し、ヘルスチェックを待機 |
-| `local-ai-stack down` | スタックコンテナを停止して削除 |
-| `local-ai-stack start` | 既存の停止したコンテナを起動 |
-| `local-ai-stack stop` | 実行中のコンテナを停止 |
-| `local-ai-stack restart` | スタックコンテナを再起動 |
-| `local-ai-stack status` | コンテナの健全性とURLを表示 |
-| `local-ai-stack logs [サービス]` | ログを表示(`-f`でストリーム) |
-| `local-ai-stack doctor` | Docker、RAM、GPU/VRAM、ポート、モデル推奨を診断 |
-| `local-ai-stack update` | 構成されたピン留めイメージを自動バックアップとヘルスチェック付きで再プル |
-| `local-ai-stack backup` | SHA-256整合性チェック付きで構成とデータボリュームをバックアップ(暗号化なし) |
-| `local-ai-stack restore <パス>` | SHA-256整合性チェック済みバックアップから復元(暗号化なし) |
-| `local-ai-stack reset` | スタックをリセット(`--delete-data`が指定されない限りボリュームを保持) |
-| `local-ai-stack config` | アクティブ構成を検査または編集 |
-| `local-ai-stack model list` | ダウンロードされたモデルをリスト |
-| `local-ai-stack model recommend` | ハードウェアに合わせたモデル推奨(RAM、VRAM、ディスク) |
-| `local-ai-stack model install <名前>` | プリフライトリソース安全チェック付きで新しいモデルをプル |
-| `local-ai-stack model remove <名前>` | インストールされたモデルを削除 |
-| `local-ai-stack model status` | モデルリソースフットプリントを検査 |
+| `pondok-ai init` | ハードウェア検出付きインタラクティブ構成ウィザードを実行 |
+| `pondok-ai up` | Compose構成を検証し、コンテナを起動し、ヘルスチェックを待機 |
+| `pondok-ai down` | スタックコンテナを停止して削除 |
+| `pondok-ai start` | 既存の停止したコンテナを起動 |
+| `pondok-ai stop` | 実行中のコンテナを停止 |
+| `pondok-ai restart` | スタックコンテナを再起動 |
+| `pondok-ai status` | コンテナの健全性とURLを表示 |
+| `pondok-ai logs [サービス]` | ログを表示(`-f`でストリーム) |
+| `pondok-ai doctor` | Docker、RAM、GPU/VRAM、ポート、モデル推奨を診断 |
+| `pondok-ai update` | 構成されたピン留めイメージを自動バックアップとヘルスチェック付きで再プル |
+| `pondok-ai backup` | SHA-256整合性チェック付きで構成とデータボリュームをバックアップ(暗号化なし) |
+| `pondok-ai restore <パス>` | SHA-256整合性チェック済みバックアップから復元(暗号化なし) |
+| `pondok-ai reset` | スタックをリセット(`--delete-data`が指定されない限りボリュームを保持) |
+| `pondok-ai config` | アクティブ構成を検査または編集 |
+| `pondok-ai model list` | ダウンロードされたモデルをリスト |
+| `pondok-ai model recommend` | ハードウェアに合わせたモデル推奨(RAM、VRAM、ディスク) |
+| `pondok-ai model install <名前>` | プリフライトリソース安全チェック付きで新しいモデルをプル |
+| `pondok-ai model remove <名前>` | インストールされたモデルを削除 |
+| `pondok-ai model status` | モデルリソースフットプリントを検査 |
 
-イメージは明示的なバージョンにピン留めされています。`local-ai-stack update`は構成されたバージョンを更新します。新しいリリースは選択しません。新しいCLIをインストールした後、`local-ai-stack update --upgrade-images`を実行して、CLIのレガシーデフォルトイメージタグのみを移行します。カスタムイメージ値は保持されます。
+イメージは明示的なバージョンにピン留めされています。`pondok-ai update`は構成されたバージョンを更新します。新しいリリースは選択しません。新しいCLIをインストールした後、`pondok-ai update --upgrade-images`を実行して、CLIのレガシーデフォルトイメージタグのみを移行します。カスタムイメージ値は保持されます。
 
 ---
 
@@ -158,14 +158,14 @@ npx local-ai-stack model install llama3.2:3b
 
 APIゲートウェイは、ドロップインOpenAI RESTエンドポイントを提供します:
 
-`/v1/*`エンドポイントを呼び出す前に、`LOCAL_AI_API_KEY`を生成された`API_SECRET_KEY`に設定してください。
+`/v1/*`エンドポイントを呼び出す前に、`PONDOK_AI_API_KEY`を生成された`API_SECRET_KEY`に設定してください。
 
 ゲートウェイは、デフォルトでソースIPごとの認証済み`/v1/*`リクエストを毎分120リクエストに制限します。ローカルクライアントが異なる制限を必要とする場合は、`.env`で`RATE_LIMIT_MAX_REQUESTS`と`RATE_LIMIT_WINDOW_MS`を構成してください。
 
 ```bash
 curl http://localhost:8000/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $LOCAL_AI_API_KEY" \
+  -H "Authorization: Bearer $PONDOK_AI_API_KEY" \
   -d '{
     "model": "llama3.2:3b",
     "messages": [
@@ -178,9 +178,9 @@ curl http://localhost:8000/v1/chat/completions \
 ```typescript
 import OpenAI from 'openai';
 
-const apiKey = process.env.LOCAL_AI_API_KEY;
+const apiKey = process.env.PONDOK_AI_API_KEY;
 if (!apiKey) {
-  throw new Error('LOCAL_AI_API_KEYを生成されたAPI_SECRET_KEYに設定してください。');
+  throw new Error('PONDOK_AI_API_KEYを生成されたAPI_SECRET_KEYに設定してください。');
 }
 
 const openai = new OpenAI({
@@ -221,4 +221,4 @@ console.log(completion.choices[0].message.content);
 
 ## ライセンス
 
-[MIT](./LICENSE) © 2026 local-ai-stackコントリビューター
+[MIT](./LICENSE) © 2026 pondok-aiコントリビューター

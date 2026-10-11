@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Create a report to help us improve local-ai-stack
+about: Create a report to help us improve pondok-ai
 title: '[BUG] '
 labels: bug
 assignees: ''
@@ -10,7 +10,7 @@ assignees: ''
 A clear and concise description of what the bug is.
 
 ## Environment Diagnosis
-Please run `local-ai-stack doctor` and paste the output below:
+Please run `pondok-ai doctor` and paste the output below:
 
 ```text
 [Paste doctor output here]

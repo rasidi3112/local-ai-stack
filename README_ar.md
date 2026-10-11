@@ -1,4 +1,4 @@
-# local-ai-stack
+# pondok-ai
 
 [English](README.md) · [Bahasa Indonesia](README_id.md) · [한국어](README_ko.md) · **العربية** · [Español](README_es.md) · [中文](README_zh.md) · [Français](README_fr.md) · [日本語](README_ja.md) · [Deutsch](README_de.md) · [Português](README_pt.md) · [Русский](README_ru.md) · [हिन्दी](README_hi.md) · [Türkçe](README_tr.md) · [Italiano](README_it.md) · [Tiếng Việt](README_vi.md)
 
@@ -20,13 +20,13 @@
 
 ## Overview
 
-`local-ai-stack` هي مجموعة أدوات سهلة الاستخدام للمطورين، تجمع بين واجهة سطر الأوامر (CLI) وتنسيق الحاويات، وتتيح تشغيل بيئة ذكاء اصطناعي خاصة ومتكاملة مباشرةً على جهازك المحلي بأقل قدر من الإعداد.
+`pondok-ai` هي مجموعة أدوات سهلة الاستخدام للمطورين، تجمع بين واجهة سطر الأوامر (CLI) وتنسيق الحاويات، وتتيح تشغيل بيئة ذكاء اصطناعي خاصة ومتكاملة مباشرةً على جهازك المحلي بأقل قدر من الإعداد.
 
-بفضل **Docker Compose v2**، توفر لك `local-ai-stack` نماذج لغوية كبيرة (LLMs) محلية، وواجهة للدردشة، وبحثًا متجهيًا، وتخزينًا دائمًا للبيانات، وبوابة API متوافقة مع OpenAI، وذلك خلال ثوانٍ. تتم معالجة المطالبات والمحادثات والتضمينات على جهازك، بينما يتطلب تنزيل صور الحاويات وأوزان النماذج اتصالًا بالإنترنت.
+بفضل **Docker Compose v2**، توفر لك `pondok-ai` نماذج لغوية كبيرة (LLMs) محلية، وواجهة للدردشة، وبحثًا متجهيًا، وتخزينًا دائمًا للبيانات، وبوابة API متوافقة مع OpenAI، وذلك خلال ثوانٍ. تتم معالجة المطالبات والمحادثات والتضمينات على جهازك، بينما يتطلب تنزيل صور الحاويات وأوزان النماذج اتصالًا بالإنترنت.
 
 ```bash
-npx local-ai-stack init
-npx local-ai-stack up
+npx pondok-ai init
+npx pondok-ai up
 ```
 
 ---
@@ -84,13 +84,13 @@ npx local-ai-stack up
 #### macOS وLinux
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/rasidi3112/pondok-ai/main/scripts/install.sh | bash
 ```
 
 #### Windows (PowerShell)
 
 ```powershell
-iwr -useb https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.ps1 | iex
+iwr -useb https://raw.githubusercontent.com/rasidi3112/pondok-ai/main/scripts/install.ps1 | iex
 ```
 
 ### البدء السريع يدويًا باستخدام npx
@@ -101,16 +101,16 @@ iwr -useb https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scrip
 
 ```bash
 # معالج إعداد تفاعلي يكتشف مكونات الجهاز تلقائيًا
-npx local-ai-stack init
+npx pondok-ai init
 
 # أو التهيئة دون تفاعل مع اختيار إعداد مسبق
-npx local-ai-stack init --preset standard --yes
+npx pondok-ai init --preset standard --yes
 ```
 
 #### 2. تشغيل الخدمات مع فحوصات تلقائية للحالة
 
 ```bash
-npx local-ai-stack up
+npx pondok-ai up
 ```
 
 بعد التشغيل، يمكنك الوصول إلى الخدمات عبر العناوين التالية:
@@ -124,10 +124,10 @@ npx local-ai-stack up
 
 ```bash
 # الحصول على توصيات نماذج مناسبة لمكونات الجهاز استنادًا إلى RAM وVRAM
-npx local-ai-stack model recommend
+npx pondok-ai model recommend
 
 # تثبيت نموذج بعد التحقق المسبق من الذاكرة ومساحة القرص
-npx local-ai-stack model install llama3.2:3b
+npx pondok-ai model install llama3.2:3b
 ```
 
 ---
@@ -136,27 +136,27 @@ npx local-ai-stack model install llama3.2:3b
 
 | الأمر | الوصف |
 |---|---|
-| `local-ai-stack init` | تشغيل معالج إعداد تفاعلي مع اكتشاف مكونات الجهاز |
-| `local-ai-stack up` | التحقق من إعدادات Compose، وتشغيل الحاويات، وانتظار اكتمال فحوصات الحالة |
-| `local-ai-stack down` | إيقاف حاويات البيئة وإزالتها |
-| `local-ai-stack start` | تشغيل الحاويات الموجودة والمتوقفة |
-| `local-ai-stack stop` | إيقاف الحاويات قيد التشغيل |
-| `local-ai-stack restart` | إعادة تشغيل حاويات البيئة |
-| `local-ai-stack status` | عرض حالة الحاويات وعناوين الوصول |
-| `local-ai-stack logs [service]` | عرض السجلات، مع استخدام `-f` لمتابعتها مباشرةً |
-| `local-ai-stack doctor` | تشخيص Docker وRAM وGPU/VRAM والمنافذ وتقديم توصيات للنماذج |
-| `local-ai-stack update` | إعادة تنزيل صور الحاويات المثبتة على إصدارات محددة، مع النسخ الاحتياطي التلقائي وفحوصات الحالة |
-| `local-ai-stack backup` | نسخ الإعدادات ووحدات تخزين البيانات احتياطيًا مع التحقق من السلامة باستخدام SHA-256 (دون تشفير) |
-| `local-ai-stack restore <path>` | استعادة نسخة احتياطية بعد التحقق من سلامتها باستخدام SHA-256 (دون تشفير) |
-| `local-ai-stack reset` | إعادة ضبط البيئة مع الاحتفاظ بوحدات التخزين ما لم يُحدَّد الخيار `--delete-data` |
-| `local-ai-stack config` | عرض الإعدادات النشطة أو تعديلها |
-| `local-ai-stack model list` | عرض قائمة النماذج التي تم تنزيلها |
-| `local-ai-stack model recommend` | التوصية بنماذج مناسبة لمكونات الجهاز (RAM وVRAM ومساحة القرص) |
-| `local-ai-stack model install <name>` | تنزيل نموذج جديد بعد إجراء فحوصات مسبقة لموارد الجهاز |
-| `local-ai-stack model remove <name>` | حذف نموذج مثبت |
-| `local-ai-stack model status` | فحص استهلاك الموارد الخاص بالنماذج |
+| `pondok-ai init` | تشغيل معالج إعداد تفاعلي مع اكتشاف مكونات الجهاز |
+| `pondok-ai up` | التحقق من إعدادات Compose، وتشغيل الحاويات، وانتظار اكتمال فحوصات الحالة |
+| `pondok-ai down` | إيقاف حاويات البيئة وإزالتها |
+| `pondok-ai start` | تشغيل الحاويات الموجودة والمتوقفة |
+| `pondok-ai stop` | إيقاف الحاويات قيد التشغيل |
+| `pondok-ai restart` | إعادة تشغيل حاويات البيئة |
+| `pondok-ai status` | عرض حالة الحاويات وعناوين الوصول |
+| `pondok-ai logs [service]` | عرض السجلات، مع استخدام `-f` لمتابعتها مباشرةً |
+| `pondok-ai doctor` | تشخيص Docker وRAM وGPU/VRAM والمنافذ وتقديم توصيات للنماذج |
+| `pondok-ai update` | إعادة تنزيل صور الحاويات المثبتة على إصدارات محددة، مع النسخ الاحتياطي التلقائي وفحوصات الحالة |
+| `pondok-ai backup` | نسخ الإعدادات ووحدات تخزين البيانات احتياطيًا مع التحقق من السلامة باستخدام SHA-256 (دون تشفير) |
+| `pondok-ai restore <path>` | استعادة نسخة احتياطية بعد التحقق من سلامتها باستخدام SHA-256 (دون تشفير) |
+| `pondok-ai reset` | إعادة ضبط البيئة مع الاحتفاظ بوحدات التخزين ما لم يُحدَّد الخيار `--delete-data` |
+| `pondok-ai config` | عرض الإعدادات النشطة أو تعديلها |
+| `pondok-ai model list` | عرض قائمة النماذج التي تم تنزيلها |
+| `pondok-ai model recommend` | التوصية بنماذج مناسبة لمكونات الجهاز (RAM وVRAM ومساحة القرص) |
+| `pondok-ai model install <name>` | تنزيل نموذج جديد بعد إجراء فحوصات مسبقة لموارد الجهاز |
+| `pondok-ai model remove <name>` | حذف نموذج مثبت |
+| `pondok-ai model status` | فحص استهلاك الموارد الخاص بالنماذج |
 
-تُثبَّت صور الحاويات على إصدارات محددة صراحةً. يقوم `local-ai-stack update` بتحديث الصور إلى الإصدارات المحددة في الإعدادات، ولا يختار الإصدارات الأحدث تلقائيًا. بعد تثبيت إصدار أحدث من CLI، شغّل `local-ai-stack update --upgrade-images` لترحيل وسوم الصور الافتراضية القديمة الخاصة بـ CLI فقط. تظل قيم الصور المخصصة كما هي.
+تُثبَّت صور الحاويات على إصدارات محددة صراحةً. يقوم `pondok-ai update` بتحديث الصور إلى الإصدارات المحددة في الإعدادات، ولا يختار الإصدارات الأحدث تلقائيًا. بعد تثبيت إصدار أحدث من CLI، شغّل `pondok-ai update --upgrade-images` لترحيل وسوم الصور الافتراضية القديمة الخاصة بـ CLI فقط. تظل قيم الصور المخصصة كما هي.
 
 ---
 
@@ -164,14 +164,14 @@ npx local-ai-stack model install llama3.2:3b
 
 توفر بوابة API نقاط نهاية REST متوافقة مباشرةً مع OpenAI.
 
-اضبط `LOCAL_AI_API_KEY` على قيمة `API_SECRET_KEY` التي تم إنشاؤها قبل استدعاء أي نقطة نهاية ضمن `/v1/*`.
+اضبط `PONDOK_AI_API_KEY` على قيمة `API_SECRET_KEY` التي تم إنشاؤها قبل استدعاء أي نقطة نهاية ضمن `/v1/*`.
 
 تحدّ البوابة افتراضيًا من عدد الطلبات المصادَق عليها إلى نقاط النهاية `/v1/*` إلى 120 طلبًا في الدقيقة لكل عنوان IP مصدر. إذا احتاج العميل المحلي إلى حدود مختلفة، فاضبط `RATE_LIMIT_MAX_REQUESTS` و`RATE_LIMIT_WINDOW_MS` في ملف `.env`.
 
 ```bash
 curl http://localhost:8000/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $LOCAL_AI_API_KEY" \
+  -H "Authorization: Bearer $PONDOK_AI_API_KEY" \
   -d '{
     "model": "llama3.2:3b",
     "messages": [
@@ -185,10 +185,10 @@ curl http://localhost:8000/v1/chat/completions \
 ```typescript
 import OpenAI from 'openai';
 
-const apiKey = process.env.LOCAL_AI_API_KEY;
+const apiKey = process.env.PONDOK_AI_API_KEY;
 
 if (!apiKey) {
-  throw new Error('يرجى تعيين LOCAL_AI_API_KEY إلى قيمة API_SECRET_KEY التي تم إنشاؤها.');
+  throw new Error('يرجى تعيين PONDOK_AI_API_KEY إلى قيمة API_SECRET_KEY التي تم إنشاؤها.');
 }
 
 const openai = new OpenAI({
@@ -231,4 +231,4 @@ console.log(completion.choices[0].message.content);
 
 ## License
 
-[MIT](./LICENSE) © 2026 مساهمو local-ai-stack
+[MIT](./LICENSE) © 2026 مساهمو pondok-ai

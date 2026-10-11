@@ -1,6 +1,6 @@
-# local-ai-stack — Troubleshooting Guide
+# pondok-ai — Troubleshooting Guide
 
-Common issues and resolutions when running `local-ai-stack`.
+Common issues and resolutions when running `pondok-ai`.
 
 ---
 
@@ -9,7 +9,7 @@ Common issues and resolutions when running `local-ai-stack`.
 Before manual troubleshooting, always run the built-in diagnostic tool:
 
 ```bash
-local-ai-stack doctor
+pondok-ai doctor
 ```
 
 This verifies:
@@ -44,7 +44,7 @@ This verifies:
    ```bash
    killall ollama  # or brew services stop ollama
    ```
-3. Or edit the port mapping in `local-ai-stack.json`:
+3. Or edit the port mapping in `pondok-ai.json`:
    ```json
    "services": {
      "ollama": {
@@ -52,7 +52,7 @@ This verifies:
      }
    }
    ```
-   Then run `local-ai-stack up`.
+   Then run `pondok-ai up`.
 
 ---
 
@@ -71,13 +71,13 @@ This verifies:
 To inspect live logs from any service:
 ```bash
 # View logs from all services
-local-ai-stack logs
+pondok-ai logs
 
 # View logs from a specific service (e.g., ollama, openwebui, api)
-local-ai-stack logs ollama
+pondok-ai logs ollama
 
 # Follow logs in real time
-local-ai-stack logs -f api
+pondok-ai logs -f api
 ```
 
 ---
@@ -86,8 +86,8 @@ local-ai-stack logs -f api
 If your Docker state or containers become corrupted:
 ```bash
 # Remove containers and networks (preserves data volumes)
-local-ai-stack down
+pondok-ai down
 
 # Complete reset with prompt to remove data volumes
-local-ai-stack reset
+pondok-ai reset
 ```

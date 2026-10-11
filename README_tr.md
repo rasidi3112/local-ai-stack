@@ -1,4 +1,4 @@
-# local-ai-stack
+# pondok-ai
 
 [English](README.md) · [Bahasa Indonesia](README_id.md) · [한국어](README_ko.md) · [العربية](README_ar.md) · [Español](README_es.md) · [中文](README_zh.md) · [Français](README_fr.md) · [日本語](README_ja.md) · [Deutsch](README_de.md) · [Português](README_pt.md) · [Русский](README_ru.md) · [हिन्दी](README_hi.md) · **Türkçe** · [Italiano](README_it.md) · [Tiếng Việt](README_vi.md)
 
@@ -20,13 +20,13 @@
 
 ## Genel Bakış
 
-`local-ai-stack`, yerel iş istasyonunuzda doğrudan tam ve özel bir yapay zeka ortamını başlatan geliştirici dostu, sürtünmesiz bir CLI ve konteyner düzenleme araç setidir.
+`pondok-ai`, yerel iş istasyonunuzda doğrudan tam ve özel bir yapay zeka ortamını başlatan geliştirici dostu, sürtünmesiz bir CLI ve konteyner düzenleme araç setidir.
 
-**Docker Compose v2** tarafından desteklenen `local-ai-stack`, size saniyeler içinde yerel LLM'ler, sohbet arayüzü, vektör araması, veritabanı kalıcılığı ve OpenAI uyumlu bir API geçidi sağlar. İstemler, sohbetler ve gömülmeler makinenizde işlenir; konteyner imajlarını ve model ağırlıklarını çekmek internet bağlantısı gerektirir.
+**Docker Compose v2** tarafından desteklenen `pondok-ai`, size saniyeler içinde yerel LLM'ler, sohbet arayüzü, vektör araması, veritabanı kalıcılığı ve OpenAI uyumlu bir API geçidi sağlar. İstemler, sohbetler ve gömülmeler makinenizde işlenir; konteyner imajlarını ve model ağırlıklarını çekmek internet bağlantısı gerektirir.
 
 ```bash
-npx local-ai-stack init
-npx local-ai-stack up
+npx pondok-ai init
+npx pondok-ai up
 ```
 
 ---
@@ -83,12 +83,12 @@ npx local-ai-stack up
 
 #### macOS ve Linux
 ```bash
-curl -fsSL https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/rasidi3112/pondok-ai/main/scripts/install.sh | bash
 ```
 
 #### Windows (PowerShell)
 ```powershell
-iwr -useb https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.ps1 | iex
+iwr -useb https://raw.githubusercontent.com/rasidi3112/pondok-ai/main/scripts/install.ps1 | iex
 ```
 
 ### npx Üzerinden Manuel Hızlı Başlangıç
@@ -98,15 +98,15 @@ iwr -useb https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scrip
 #### 1. Yığını başlatın
 ```bash
 # Donanım otomatik algılama ile etkileşimli kurulum sihirbazı
-npx local-ai-stack init
+npx pondok-ai init
 
 # Veya seçilen hazır ayarla etkileşimsiz
-npx local-ai-stack init --preset standard --yes
+npx pondok-ai init --preset standard --yes
 ```
 
 #### 2. Otomatik sağlık kontrolleriyle servisleri başlatın
 ```bash
-npx local-ai-stack up
+npx pondok-ai up
 ```
 
 Çalışmaya başladığında yığınınıza erişin:
@@ -118,10 +118,10 @@ npx local-ai-stack up
 #### 3. Akıllı Donanım Algılama ve Model Önerileri
 ```bash
 # RAM/VRAM'inize dayalı akıllı donanım farkındalığı önerileri alın
-npx local-ai-stack model recommend
+npx pondok-ai model recommend
 
 # Ön kontrol bellek ve disk güvenlik kontrolü ile model yükleyin
-npx local-ai-stack model install llama3.2:3b
+npx pondok-ai model install llama3.2:3b
 ```
 
 ---
@@ -130,27 +130,27 @@ npx local-ai-stack model install llama3.2:3b
 
 | Komut | Açıklama |
 |---|---|
-| `local-ai-stack init` | Donanım algılama ile etkileşimli yapılandırma sihirbazını çalıştırın |
-| `local-ai-stack up` | Compose yapılandırmasını doğrulayın, konteynerleri başlatın ve sağlık kontrollerini bekleyin |
-| `local-ai-stack down` | Yığın konteynerlerini durdurun ve kaldırın |
-| `local-ai-stack start` | Mevcut durdurulmuş konteynerleri başlatın |
-| `local-ai-stack stop` | Çalışan konteynerleri durdurun |
-| `local-ai-stack restart` | Yığın konteynerlerini yeniden başlatın |
-| `local-ai-stack status` | Konteyner sağlığını ve URL'leri gösterin |
-| `local-ai-stack logs [servis]` | Günlükleri görüntüleyin (akış için `-f`) |
-| `local-ai-stack doctor` | Docker, RAM, GPU/VRAM, portları ve model önerilerini teşhis edin |
-| `local-ai-stack update` | Otomatik yedekleme ve sağlık kontrolleriyle yapılandırılmış sabitlenmiş imajları yeniden çekin |
-| `local-ai-stack backup` | SHA-256 bütünlük kontrolleriyle yapılandırmaları ve veri hacimlerini yedekleyin (şifrelenmemiş) |
-| `local-ai-stack restore <yol>` | SHA-256 bütünlük kontrollü yedeklemeden geri yükleyin (şifrelenmemiş) |
-| `local-ai-stack reset` | Yığını sıfırlayın (`--delete-data` belirtilmedikçe hacimleri korur) |
-| `local-ai-stack config` | Etkin yapılandırmayı inceleyin veya düzenleyin |
-| `local-ai-stack model list` | İndirilen modelleri listeleyin |
-| `local-ai-stack model recommend` | Donanıma özel model önerileri (RAM, VRAM, Disk) |
-| `local-ai-stack model install <isim>` | Ön kontrol kaynak güvenlik kontrolleriyle yeni model çekin |
-| `local-ai-stack model remove <isim>` | Yüklenmiş modeli silin |
-| `local-ai-stack model status` | Model kaynak ayak izlerini inceleyin |
+| `pondok-ai init` | Donanım algılama ile etkileşimli yapılandırma sihirbazını çalıştırın |
+| `pondok-ai up` | Compose yapılandırmasını doğrulayın, konteynerleri başlatın ve sağlık kontrollerini bekleyin |
+| `pondok-ai down` | Yığın konteynerlerini durdurun ve kaldırın |
+| `pondok-ai start` | Mevcut durdurulmuş konteynerleri başlatın |
+| `pondok-ai stop` | Çalışan konteynerleri durdurun |
+| `pondok-ai restart` | Yığın konteynerlerini yeniden başlatın |
+| `pondok-ai status` | Konteyner sağlığını ve URL'leri gösterin |
+| `pondok-ai logs [servis]` | Günlükleri görüntüleyin (akış için `-f`) |
+| `pondok-ai doctor` | Docker, RAM, GPU/VRAM, portları ve model önerilerini teşhis edin |
+| `pondok-ai update` | Otomatik yedekleme ve sağlık kontrolleriyle yapılandırılmış sabitlenmiş imajları yeniden çekin |
+| `pondok-ai backup` | SHA-256 bütünlük kontrolleriyle yapılandırmaları ve veri hacimlerini yedekleyin (şifrelenmemiş) |
+| `pondok-ai restore <yol>` | SHA-256 bütünlük kontrollü yedeklemeden geri yükleyin (şifrelenmemiş) |
+| `pondok-ai reset` | Yığını sıfırlayın (`--delete-data` belirtilmedikçe hacimleri korur) |
+| `pondok-ai config` | Etkin yapılandırmayı inceleyin veya düzenleyin |
+| `pondok-ai model list` | İndirilen modelleri listeleyin |
+| `pondok-ai model recommend` | Donanıma özel model önerileri (RAM, VRAM, Disk) |
+| `pondok-ai model install <isim>` | Ön kontrol kaynak güvenlik kontrolleriyle yeni model çekin |
+| `pondok-ai model remove <isim>` | Yüklenmiş modeli silin |
+| `pondok-ai model status` | Model kaynak ayak izlerini inceleyin |
 
-İmajlar açık sürümlere sabitlenmiştir. `local-ai-stack update` yapılandırılmış sürümleri yeniler; daha yeni sürümleri seçmez. Daha yeni bir CLI yükledikten sonra, yalnızca CLI'nin eski varsayılan imaj etiketlerini taşımak için `local-ai-stack update --upgrade-images` komutunu çalıştırın. Özel imaj değerleri korunur.
+İmajlar açık sürümlere sabitlenmiştir. `pondok-ai update` yapılandırılmış sürümleri yeniler; daha yeni sürümleri seçmez. Daha yeni bir CLI yükledikten sonra, yalnızca CLI'nin eski varsayılan imaj etiketlerini taşımak için `pondok-ai update --upgrade-images` komutunu çalıştırın. Özel imaj değerleri korunur.
 
 ---
 
@@ -158,14 +158,14 @@ npx local-ai-stack model install llama3.2:3b
 
 API Geçidi, hazır OpenAI REST uç noktaları sağlar:
 
-`/v1/*` uç noktasını çağırmadan önce `LOCAL_AI_API_KEY`'i oluşturulan `API_SECRET_KEY`'e ayarlayın.
+`/v1/*` uç noktasını çağırmadan önce `PONDOK_AI_API_KEY`'i oluşturulan `API_SECRET_KEY`'e ayarlayın.
 
 Geçit, kaynak IP başına kimlik doğrulaması yapılmış `/v1/*` isteklerini varsayılan olarak dakikada 120 istekle sınırlar. Yerel istemciniz farklı sınırlar gerektiriyorsa `.env` dosyasında `RATE_LIMIT_MAX_REQUESTS` ve `RATE_LIMIT_WINDOW_MS`'yi yapılandırın.
 
 ```bash
 curl http://localhost:8000/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $LOCAL_AI_API_KEY" \
+  -H "Authorization: Bearer $PONDOK_AI_API_KEY" \
   -d '{
     "model": "llama3.2:3b",
     "messages": [
@@ -178,9 +178,9 @@ curl http://localhost:8000/v1/chat/completions \
 ```typescript
 import OpenAI from 'openai';
 
-const apiKey = process.env.LOCAL_AI_API_KEY;
+const apiKey = process.env.PONDOK_AI_API_KEY;
 if (!apiKey) {
-  throw new Error('LOCAL_AI_API_KEY\'i oluşturulan API_SECRET_KEY\'inize ayarlayın.');
+  throw new Error('PONDOK_AI_API_KEY\'i oluşturulan API_SECRET_KEY\'inize ayarlayın.');
 }
 
 const openai = new OpenAI({
@@ -221,4 +221,4 @@ Katkılar hoş karşılanır! Başlamak için [CONTRIBUTING.md](./CONTRIBUTING.m
 
 ## Lisans
 
-[MIT](./LICENSE) © 2026 local-ai-stack katkıda bulunanları
+[MIT](./LICENSE) © 2026 pondok-ai katkıda bulunanları

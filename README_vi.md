@@ -1,4 +1,4 @@
-# local-ai-stack
+# pondok-ai
 
 [English](README.md) · [Bahasa Indonesia](README_id.md) · [한국어](README_ko.md) · [العربية](README_ar.md) · [Español](README_es.md) · [中文](README_zh.md) · [Français](README_fr.md) · [日本語](README_ja.md) · [Deutsch](README_de.md) · [Português](README_pt.md) · [Русский](README_ru.md) · [हिन्दी](README_hi.md) · [Türkçe](README_tr.md) · [Italiano](README_it.md) · **Tiếng Việt**
 
@@ -20,13 +20,13 @@
 
 ## Tổng Quan
 
-`local-ai-stack` là một bộ công cụ CLI và điều phối container thân thiện với nhà phát triển, không ma sát, khởi động một môi trường AI hoàn chỉnh và riêng tư trực tiếp trên máy trạm local của bạn.
+`pondok-ai` là một bộ công cụ CLI và điều phối container thân thiện với nhà phát triển, không ma sát, khởi động một môi trường AI hoàn chỉnh và riêng tư trực tiếp trên máy trạm local của bạn.
 
-Được hỗ trợ bởi **Docker Compose v2**, `local-ai-stack` cung cấp cho bạn các LLM local, giao diện chat, tìm kiếm vector, lưu trữ cơ sở dữ liệu và API gateway tương thích OpenAI trong vài giây. Các prompt, chat và embedding được xử lý trên máy của bạn; việc kéo image container và trọng số model yêu cầu kết nối internet.
+Được hỗ trợ bởi **Docker Compose v2**, `pondok-ai` cung cấp cho bạn các LLM local, giao diện chat, tìm kiếm vector, lưu trữ cơ sở dữ liệu và API gateway tương thích OpenAI trong vài giây. Các prompt, chat và embedding được xử lý trên máy của bạn; việc kéo image container và trọng số model yêu cầu kết nối internet.
 
 ```bash
-npx local-ai-stack init
-npx local-ai-stack up
+npx pondok-ai init
+npx pondok-ai up
 ```
 
 ---
@@ -84,12 +84,12 @@ npx local-ai-stack up
 
 #### macOS và Linux
 ```bash
-curl -fsSL https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/rasidi3112/pondok-ai/main/scripts/install.sh | bash
 ```
 
 #### Windows (PowerShell)
 ```powershell
-iwr -useb https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.ps1 | iex
+iwr -useb https://raw.githubusercontent.com/rasidi3112/pondok-ai/main/scripts/install.ps1 | iex
 ```
 
 ### Khởi Động Nhanh Thủ Công qua npx
@@ -99,15 +99,15 @@ iwr -useb https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scrip
 #### 1. Khởi tạo stack
 ```bash
 # Trình hướng dẫn thiết lập tương tác với phát hiện phần cứng tự động
-npx local-ai-stack init
+npx pondok-ai init
 
 # Hoặc không tương tác với cấu hình sẵn đã chọn
-npx local-ai-stack init --preset standard --yes
+npx pondok-ai init --preset standard --yes
 ```
 
 #### 2. Khởi động dịch vụ với kiểm tra sức khỏe tự động
 ```bash
-npx local-ai-stack up
+npx pondok-ai up
 ```
 
 Sau khi chạy, truy cập stack của bạn:
@@ -119,10 +119,10 @@ Sau khi chạy, truy cập stack của bạn:
 #### 3. Phát Hiện Phần Cứng Thông Minh và Đề Xuất Model
 ```bash
 # Nhận đề xuất nhận biết phần cứng thông minh dựa trên RAM/VRAM của bạn
-npx local-ai-stack model recommend
+npx pondok-ai model recommend
 
 # Cài đặt model với kiểm tra an toàn bộ nhớ và đĩa trước khi bay
-npx local-ai-stack model install llama3.2:3b
+npx pondok-ai model install llama3.2:3b
 ```
 
 ---
@@ -131,27 +131,27 @@ npx local-ai-stack model install llama3.2:3b
 
 | Lệnh | Mô Tả |
 |---|---|
-| `local-ai-stack init` | Chạy trình hướng dẫn cấu hình tương tác với phát hiện phần cứng |
-| `local-ai-stack up` | Xác thực cấu hình Compose, khởi động container và chờ kiểm tra sức khỏe |
-| `local-ai-stack down` | Dừng và xóa các container của stack |
-| `local-ai-stack start` | Khởi động các container đã dừng hiện có |
-| `local-ai-stack stop` | Dừng các container đang chạy |
-| `local-ai-stack restart` | Khởi động lại các container của stack |
-| `local-ai-stack status` | Hiển thị tình trạng sức khỏe container và URL |
-| `local-ai-stack logs [dịch-vụ]` | Xem logs (dùng `-f` để stream) |
-| `local-ai-stack doctor` | Chẩn đoán Docker, RAM, GPU/VRAM, cổng và đề xuất model |
-| `local-ai-stack update` | Kéo lại các image đã ghim được cấu hình với sao lưu tự động và kiểm tra sức khỏe |
-| `local-ai-stack backup` | Sao lưu cấu hình và volume dữ liệu với kiểm tra toàn vẹn SHA-256 (không mã hóa) |
-| `local-ai-stack restore <đường-dẫn>` | Khôi phục từ bản sao lưu được kiểm tra toàn vẹn SHA-256 (không mã hóa) |
-| `local-ai-stack reset` | Đặt lại stack (bảo toàn volume trừ khi chỉ định `--delete-data`) |
-| `local-ai-stack config` | Kiểm tra hoặc chỉnh sửa cấu hình đang hoạt động |
-| `local-ai-stack model list` | Liệt kê các model đã tải xuống |
-| `local-ai-stack model recommend` | Đề xuất model phù hợp với phần cứng (RAM, VRAM, Đĩa) |
-| `local-ai-stack model install <tên>` | Kéo model mới với kiểm tra an toàn tài nguyên trước khi bay |
-| `local-ai-stack model remove <tên>` | Xóa model đã cài đặt |
-| `local-ai-stack model status` | Kiểm tra dấu vết tài nguyên của model |
+| `pondok-ai init` | Chạy trình hướng dẫn cấu hình tương tác với phát hiện phần cứng |
+| `pondok-ai up` | Xác thực cấu hình Compose, khởi động container và chờ kiểm tra sức khỏe |
+| `pondok-ai down` | Dừng và xóa các container của stack |
+| `pondok-ai start` | Khởi động các container đã dừng hiện có |
+| `pondok-ai stop` | Dừng các container đang chạy |
+| `pondok-ai restart` | Khởi động lại các container của stack |
+| `pondok-ai status` | Hiển thị tình trạng sức khỏe container và URL |
+| `pondok-ai logs [dịch-vụ]` | Xem logs (dùng `-f` để stream) |
+| `pondok-ai doctor` | Chẩn đoán Docker, RAM, GPU/VRAM, cổng và đề xuất model |
+| `pondok-ai update` | Kéo lại các image đã ghim được cấu hình với sao lưu tự động và kiểm tra sức khỏe |
+| `pondok-ai backup` | Sao lưu cấu hình và volume dữ liệu với kiểm tra toàn vẹn SHA-256 (không mã hóa) |
+| `pondok-ai restore <đường-dẫn>` | Khôi phục từ bản sao lưu được kiểm tra toàn vẹn SHA-256 (không mã hóa) |
+| `pondok-ai reset` | Đặt lại stack (bảo toàn volume trừ khi chỉ định `--delete-data`) |
+| `pondok-ai config` | Kiểm tra hoặc chỉnh sửa cấu hình đang hoạt động |
+| `pondok-ai model list` | Liệt kê các model đã tải xuống |
+| `pondok-ai model recommend` | Đề xuất model phù hợp với phần cứng (RAM, VRAM, Đĩa) |
+| `pondok-ai model install <tên>` | Kéo model mới với kiểm tra an toàn tài nguyên trước khi bay |
+| `pondok-ai model remove <tên>` | Xóa model đã cài đặt |
+| `pondok-ai model status` | Kiểm tra dấu vết tài nguyên của model |
 
-Các image được ghim vào các phiên bản rõ ràng. `local-ai-stack update` làm mới các phiên bản đã cấu hình; nó không chọn các bản phát hành mới hơn. Sau khi cài đặt CLI mới hơn, chạy `local-ai-stack update --upgrade-images` để chỉ di chuyển các thẻ image mặc định cũ của CLI. Các giá trị image tùy chỉnh được bảo toàn.
+Các image được ghim vào các phiên bản rõ ràng. `pondok-ai update` làm mới các phiên bản đã cấu hình; nó không chọn các bản phát hành mới hơn. Sau khi cài đặt CLI mới hơn, chạy `pondok-ai update --upgrade-images` để chỉ di chuyển các thẻ image mặc định cũ của CLI. Các giá trị image tùy chỉnh được bảo toàn.
 
 ---
 
@@ -159,14 +159,14 @@ Các image được ghim vào các phiên bản rõ ràng. `local-ai-stack updat
 
 API Gateway cung cấp các endpoint REST tương thích OpenAI sẵn sàng sử dụng:
 
-Đặt `LOCAL_AI_API_KEY` thành `API_SECRET_KEY` đã tạo trước khi gọi endpoint `/v1/*`.
+Đặt `PONDOK_AI_API_KEY` thành `API_SECRET_KEY` đã tạo trước khi gọi endpoint `/v1/*`.
 
 Gateway giới hạn các yêu cầu `/v1/*` đã xác thực theo IP nguồn ở mức 120 yêu cầu mỗi phút theo mặc định. Cấu hình `RATE_LIMIT_MAX_REQUESTS` và `RATE_LIMIT_WINDOW_MS` trong `.env` nếu client local của bạn cần giới hạn khác.
 
 ```bash
 curl http://localhost:8000/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $LOCAL_AI_API_KEY" \
+  -H "Authorization: Bearer $PONDOK_AI_API_KEY" \
   -d '{
     "model": "llama3.2:3b",
     "messages": [
@@ -179,9 +179,9 @@ curl http://localhost:8000/v1/chat/completions \
 ```typescript
 import OpenAI from 'openai';
 
-const apiKey = process.env.LOCAL_AI_API_KEY;
+const apiKey = process.env.PONDOK_AI_API_KEY;
 if (!apiKey) {
-  throw new Error('Đặt LOCAL_AI_API_KEY thành API_SECRET_KEY đã tạo của bạn.');
+  throw new Error('Đặt PONDOK_AI_API_KEY thành API_SECRET_KEY đã tạo của bạn.');
 }
 
 const openai = new OpenAI({
@@ -222,4 +222,4 @@ Chào đón các đóng góp! Xem [CONTRIBUTING.md](./CONTRIBUTING.md) để b�
 
 ## Giấy Phép
 
-[MIT](./LICENSE) © 2026 những người đóng góp cho local-ai-stack
+[MIT](./LICENSE) © 2026 những người đóng góp cho pondok-ai
