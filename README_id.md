@@ -224,6 +224,15 @@ Setiap pull request menjalankan pengujian menyeluruh (end-to-end) di GitHub Acti
 
 ---
 
+## Keterbatasan yang diketahui
+
+- Belum diuji pada host macOS atau Windows nyata. Di Apple Silicon, container Docker tidak dapat menggunakan GPU dan local-ai-stack menjalankan Ollama di dalam Docker, sehingga inferensi di sana hanya menggunakan CPU.
+- Akselerasi GPU tidak dicakup oleh CI.
+- Respons streaming dan embeddings belum dicakup oleh CI.
+- Image-nya berukuran besar (beberapa GB). Siapkan ruang disk kosong yang cukup; workspace cloud 32 GB dengan 19 GB kosong pernah kehabisan ruang saat mengekstrak image Ollama.
+
+---
+
 ## Dokumentasi
 
 - [Ikhtisar Arsitektur](./docs/architecture.md)

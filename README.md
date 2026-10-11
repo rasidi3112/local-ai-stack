@@ -213,6 +213,15 @@ Every pull request runs an end-to-end test on GitHub Actions (amd64 and arm64): 
 
 ---
 
+## Known limitations
+
+- Not tested on real macOS or Windows hosts yet. On Apple Silicon, Docker containers cannot use the GPU and local-ai-stack runs Ollama inside Docker, so inference there is CPU-only.
+- GPU acceleration is not covered by CI.
+- Streaming responses and embeddings are not covered by CI yet.
+- The images are large (several GB). Plan for substantial free disk space; a 32 GB cloud workspace with 19 GB free ran out of space while extracting the Ollama image.
+
+---
+
 ## Documentation
 
 - [Architecture Overview](./docs/architecture.md)
