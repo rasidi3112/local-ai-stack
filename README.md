@@ -2,6 +2,8 @@
 
 **English** · [Bahasa Indonesia](README_id.md) · [한국어](README_ko.md) · [العربية](README_ar.md) · [Español](README_es.md) · [中文](README_zh.md) · [Français](README_fr.md) · [日本語](README_ja.md) · [Deutsch](README_de.md) · [Português](README_pt.md) · [Русский](README_ru.md) · [हिन्दी](README_hi.md) · [Türkçe](README_tr.md) · [Italiano](README_it.md) · [Tiếng Việt](README_vi.md)
 
+Translations are machine-generated and may lag behind the English README.
+
 <p align="center">
   <strong>Run your own private AI stack locally with one command.</strong>
 </p>
@@ -35,10 +37,10 @@ npx local-ai-stack up
 
 -  **Local Processing**: Prompts, chats, embeddings, and inference run on your hardware. Initial container image pulls and model downloads require internet access.
 - ⚡ **Zero Setup Friction**: Automatically detects OS, architecture, RAM, and GPU (Apple Metal / NVIDIA CUDA).
--  **Modular Presets**: Scale from a lightweight chat interface (`minimal`) to an enterprise RAG stack (`standard`) or an autonomous automation pipeline (`full`).
+-  **Modular Presets**: Scale from a lightweight chat interface (`minimal`) to a RAG stack (`standard`) or an autonomous automation pipeline (`full`).
 -  **OpenAI-Compatible Gateway**: Point standard OpenAI SDKs or LangChain directly to `http://localhost:8000/v1` with zero code rewrites.
 -  **Built-in Model Manager**: Pull, list, inspect, and remove models with built-in RAM/disk safety warnings.
--  **Self-Healing Diagnostics**: Built-in `doctor` command diagnoses port collisions, Docker daemon status, and resource limits before you run into issues.
+-  **Built-in Diagnostics**: Built-in `doctor` command diagnoses port collisions, Docker daemon status, and resource limits before you run into issues.
 
 ---
 
@@ -79,19 +81,7 @@ npx local-ai-stack up
 
 ## Quickstart
 
-### Automated One-Command Installation
-
-#### macOS & Linux
-```bash
-curl -fsSL https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.sh | bash
-```
-
-#### Windows (PowerShell)
-```powershell
-iwr -useb https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.ps1 | iex
-```
-
-### Manual Quickstart via npx
+### Quickstart via npx
 
 Prerequisites: Node.js 22 or later, Docker, and Docker Compose v2.
 
@@ -122,6 +112,18 @@ npx local-ai-stack model recommend
 
 # Install model with pre-flight memory and disk safety check
 npx local-ai-stack model install llama3.2:3b
+```
+
+### Installer scripts (experimental, not covered by CI)
+
+#### macOS & Linux
+```bash
+curl -fsSL https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.sh | bash
+```
+
+#### Windows (PowerShell)
+```powershell
+iwr -useb https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.ps1 | iex
 ```
 
 ---
@@ -160,7 +162,7 @@ The API Gateway provides drop-in OpenAI REST endpoints:
 
 Set `LOCAL_AI_API_KEY` to the generated `API_SECRET_KEY` before calling a `/v1/*` endpoint.
 
-The gateway limits authenticated `/v1/*` requests per source IP to 120 requests per minute by default. Configure `RATE_LIMIT_MAX_REQUESTS` and `RATE_LIMIT_WINDOW_MS` in `.env` if your local client needs different limits.
+The gateway limits authenticated `/v1/*` requests per client (source IP and API key) to 120 requests per minute by default. Configure `RATE_LIMIT_MAX_REQUESTS` and `RATE_LIMIT_WINDOW_MS` in `.env` if your local client needs different limits.
 
 ```bash
 curl http://localhost:8000/v1/chat/completions \
@@ -204,8 +206,12 @@ console.log(completion.choices[0].message.content);
 - [`examples/rag-example/`](./examples/rag-example): End-to-end RAG pipeline using Qdrant vector database and Ollama embeddings.
 
 ---
+
 ## Tested in CI
-Every pull request runs an end-to-end test on GitHub Actions (amd64 and arm64): init, up, pull a small model (smollm:135m, 91 MB), list it via /v1/models, a non-streaming /v1/chat/completions, rate limiting (401 and 429), and a check that Open WebUI is reachable. Not covered yet: streaming responses, embeddings, GPU, and macOS/Windows hosts.
+
+Every pull request runs an end-to-end test on GitHub Actions (amd64 and arm64): init, up, pull a very small model (smollm:135m, about 90 MB), list it via /v1/models, a non-streaming /v1/chat/completions request, rate limiting (401 and 429), and a check that Open WebUI's start page responds. Not covered yet: streaming responses, embeddings, GPU acceleration, and macOS/Windows hosts.
+
+---
 
 ## Documentation
 

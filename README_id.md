@@ -2,6 +2,8 @@
 
 [English](README.md) · **Bahasa Indonesia** · [한국어](README_ko.md) · [العربية](README_ar.md) · [Español](README_es.md) · [中文](README_zh.md) · [Français](README_fr.md) · [日本語](README_ja.md) · [Deutsch](README_de.md) · [Português](README_pt.md) · [Русский](README_ru.md) · [हिन्दी](README_hi.md) · [Türkçe](README_tr.md) · [Italiano](README_it.md) · [Tiếng Việt](README_vi.md)
 
+Terjemahan dibuat oleh mesin dan mungkin tertinggal dari README bahasa Inggris.
+
 <p align="center">
   <a href="#quickstart">Mulai Cepat</a> •
   <a href="#features">Fitur</a> •
@@ -36,7 +38,7 @@ npx local-ai-stack up
 - **Preset Modular**: Pilih mulai dari antarmuka chat ringan (`minimal`), stack RAG (`standard`), hingga pipeline otomatisasi AI (`full`).
 - **Gateway yang Kompatibel dengan OpenAI**: Hubungkan OpenAI SDK standar atau LangChain langsung ke `http://localhost:8000/v1` tanpa perlu mengubah kode.
 - **Manajer Model Bawaan**: Unduh, tampilkan daftar, periksa, dan hapus model dengan peringatan keamanan penggunaan RAM dan ruang disk.
-- **Diagnostik Mandiri**: Perintah `doctor` membantu mendeteksi konflik port, status Docker daemon, dan keterbatasan sumber daya sebelum menimbulkan masalah.
+- **Diagnostik Bawaan**: Perintah `doctor` membantu mendeteksi konflik port, status Docker daemon, dan keterbatasan sumber daya sebelum menimbulkan masalah.
 
 ---
 
@@ -77,21 +79,7 @@ npx local-ai-stack up
 
 ## Mulai Cepat
 
-### Instalasi Otomatis dengan Satu Perintah
-
-#### macOS & Linux
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.sh | bash
-```
-
-#### Windows (PowerShell)
-
-```powershell
-iwr -useb https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.ps1 | iex
-```
-
-### Mulai Cepat Manual Menggunakan npx
+### Mulai Cepat via npx
 
 **Prasyarat:** Node.js 22 atau lebih baru, Docker, dan Docker Compose v2.
 
@@ -126,6 +114,20 @@ npx local-ai-stack model recommend
 
 # Instal model dengan pemeriksaan awal penggunaan memori dan ruang disk
 npx local-ai-stack model install llama3.2:3b
+```
+
+### Skrip penginstal (eksperimental, belum dicakup oleh CI)
+
+#### macOS & Linux
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.sh | bash
+```
+
+#### Windows (PowerShell)
+
+```powershell
+iwr -useb https://raw.githubusercontent.com/rasidi3112/local-ai-stack/main/scripts/install.ps1 | iex
 ```
 
 ---
@@ -166,7 +168,7 @@ API Gateway menyediakan endpoint REST yang kompatibel dengan OpenAI dan dapat di
 
 Sebelum memanggil endpoint `/v1/`, atur `LOCAL_AI_API_KEY` menggunakan nilai `API_SECRET_KEY` yang dihasilkan oleh sistem.
 
-Secara default, gateway membatasi permintaan terautentikasi ke endpoint `/v1/` sebanyak 120 permintaan per menit untuk setiap alamat IP sumber.
+Secara default, gateway membatasi permintaan terautentikasi ke endpoint `/v1/` sebanyak 120 permintaan per menit untuk setiap klien (IP sumber dan API key).
 
 Jika diperlukan, Anda dapat mengubah batas tersebut melalui variabel `RATE_LIMIT_MAX_REQUESTS` dan `RATE_LIMIT_WINDOW_MS` di dalam file `.env`.
 
@@ -213,6 +215,12 @@ console.log(completion.choices[0].message.content);
 
 - [`examples/openai-compat/`](./examples/openai-compat): Contoh integrasi menggunakan OpenAI SDK tanpa perubahan besar pada kode.
 - [`examples/rag-example/`](./examples/rag-example): Pipeline RAG lengkap menggunakan database vektor Qdrant dan embedding dari Ollama.
+
+---
+
+## Teruji di CI
+
+Setiap pull request menjalankan pengujian menyeluruh (end-to-end) di GitHub Actions (amd64 dan arm64): init, up, penarikan model sangat kecil (smollm:135m, sekitar 90 MB), pendaftaran via /v1/models, permintaan non-streaming /v1/chat/completions, pembatasan laju (401 dan 429), dan pemeriksaan bahwa halaman awal Open WebUI merespons. Belum dicakup: respons streaming, embeddings, akselerasi GPU, dan host macOS/Windows.
 
 ---
 
