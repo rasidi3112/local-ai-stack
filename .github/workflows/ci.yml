@@ -214,6 +214,31 @@ jobs:
             exit 1
           fi
 
+      - name: 'Assert: streaming chat completions use SSE'
+        run: |
+          PAYLOAD='{"model":"smollm:135m","messages":[{"role":"user","content":"Say hi in one word."}],"stream":true,"max_tokens":10}'
+          RESP=$(curl -sS -w '\n%{http_code}' \
+            -H "Authorization: Bearer $API_SECRET_KEY" \
+            -H 'Content-Type: application/json' \
+            -H 'Host: localhost:8000' \
+            -d "$PAYLOAD" \
+            http://localhost:8000/v1/chat/completions)
+          STATUS=$(echo "$RESP" | tail -1)
+          BODY=$(echo "$RESP" | sed '$d')
+          echo "Streaming chat HTTP Status: $STATUS"
+          if [ "$STATUS" != "200" ]; then
+            echo "::error::Expected 200 from streaming /v1/chat/completions, got $STATUS"
+            exit 1
+          fi
+          if ! printf '%s\n' "$BODY" | grep -q '^data: '; then
+            echo '::error::Expected an SSE data: line'
+            exit 1
+          fi
+          if ! printf '%s\n' "$BODY" | grep -Fxq 'data: [DONE]'; then
+            echo '::error::Expected SSE closing data: [DONE]'
+            exit 1
+          fi
+
       - name: Reset rate-limit window before rate-limit assertions
         run: |
           echo "Waiting 65s for the 60s rate-limit window to expire cleanly..."

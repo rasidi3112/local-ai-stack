@@ -1,6 +1,6 @@
 import { timingSafeEqual } from 'node:crypto';
 import cors from '@fastify/cors';
-import Fastify, { FastifyInstance } from 'fastify';
+import Fastify, { type FastifyError, FastifyInstance } from 'fastify';
 import { createOpenAiError } from './errors.js';
 import { chatCompletionsRoute } from './routes/chat.js';
 import { embeddingsRoute } from './routes/embeddings.js';
@@ -139,7 +139,7 @@ export async function buildApp(options: GatewayOptions = {}): Promise<FastifyIns
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
   });
 
-  app.setErrorHandler((error, _request, reply) => {
+  app.setErrorHandler<FastifyError>((error, _request, reply) => {
     app.log.error(error);
 
     const statusCode = error.statusCode ?? 500;

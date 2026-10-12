@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Security
-- Updated fastify to 5.12.5 to address published advisories (request validation and authentication bypass issues, and denial of service).
+- Major upgrade from Fastify 4.29.1 to Fastify 5.12.5, with @fastify/cors 10.1.0, to address published advisories (request validation and authentication bypass issues, and denial of service).
 
 ## [0.3.0] - 2026-10-12
 
