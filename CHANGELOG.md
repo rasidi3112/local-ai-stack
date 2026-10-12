@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security
+- Updated fastify to 5.12.5 to address published advisories (request validation and authentication bypass issues, and denial of service).
+
 ## [0.3.0] - 2026-10-12
 
 - BREAKING: renamed from local-ai-stack to pondok-ai (npm package, CLI command, config directory .pondok-ai, container names pondok-ai-*). Existing 0.2.x stacks are not migrated automatically. The old package name is deprecated.
